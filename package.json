@@ -14,6 +14,7 @@
   "dependencies": {
     "aai-ant-plus": "0.1.9",
     "excalibur": "^0.18.0",
+    "nfc-pcsc": "^0.6.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.1",

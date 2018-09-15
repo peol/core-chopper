@@ -1,18 +1,33 @@
 const http = require('http');
 const fs = require('fs');
+const { NFC } = require('nfc-pcsc');
 
+const nfc = new NFC();
 const createWebSocketServer = require('./ws');
 const { speedSensor, cadenceSensor, powerSensor } = require('./ant');
 
 const REST_PORT = 8081;
 const WSS_PORT = 8080;
 
-/* rfid.on('blip', (data) => {
-  sockets.forEach(s => s.send(JSON.stringify({
-    type: 'blip',
-    data,
-  })));
-}); */
+nfc.on('reader', reader => {
+  console.log("NFC reader attched");
+  reader.on('card', card => {
+    console.log(card.uid);
+    sockets.forEach(s => s.send(JSON.stringify({
+      type: 'nfc',
+      data: {
+        card,
+      },
+    })));
+  });
+  reader.on('error', err => {
+    console.error('error reading card ', err);
+  });
+});
+
+nfc.on('error', err => {
+  console.error('NFC card reader error ', err);
+});
 
 const { socket, sockets } = createWebSocketServer(WSS_PORT);
 
