@@ -1,4 +1,4 @@
-userid,gameid,time,score
+userid,gameid,timestamp,score
 1,1,1536951930979,6597
 2,2,1536951931979,3495
 2,3,1536951932979,9945

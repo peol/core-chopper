@@ -1,0 +1,22 @@
+[games]:
+LOAD [userid],
+	[gameid],
+	[timestamp],
+	[score]
+ FROM [lib://AttachedFiles/games.csv]
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq);
+
+[players]:
+LOAD [userid],
+	[name]
+ FROM [lib://AttachedFiles/players.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+[entries]:
+LOAD [gameid],
+	[time],
+	[speed],
+	[cadence],
+	[power]
+ FROM [lib://AttachedFiles/entries.csv]
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq);

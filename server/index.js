@@ -12,11 +12,13 @@ const WSS_PORT = 8080;
 nfc.on('reader', reader => {
   console.log("NFC reader attched");
   reader.on('card', card => {
+    //TODO Add logic to query lowdb and search for existing user
     console.log(card.uid);
     sockets.forEach(s => s.send(JSON.stringify({
       type: 'nfc',
       data: {
-        card,
+        id: card.uid,
+        name: "",
       },
     })));
   });

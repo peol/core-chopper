@@ -35,22 +35,22 @@ class Index extends React.Component {
     const result = JSON.parse(evt.data);
     // console.log(data);
     this.listeners.forEach(l => l(result));
-    if (result.type === 'scan') {
-      this.setState({ user: result.data });
+    if (result.type === 'nfc') {
+      this.setState({ user: { id: result.data.id, name: 'none' }});
     }
   }
 
-  done(user) {
-    this.setState({ user });
-  }
+done(user) {
+  this.setState({ user });
+}
 
-  render() {
-    const { user } = this.state;
-    if (!user.id || !user.name) {
-      return <Scan user={user} onDone={u => this.done(u)} />;
-    }
-    return <Engine user={user} registerListener={fn => this.registerListener(fn)} />;
+render() {
+  const { user } = this.state;
+  if (!user.id || !user.name) {
+    return <Scan user={user} onDone={u => this.done(u)} />;
   }
+  return <Engine user={user} registerListener={fn => this.registerListener(fn)} />;
+}
 }
 
 ReactDOM.render(
