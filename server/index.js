@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const { NFC } = require('nfc-pcsc');
 const {
-  getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame, createEntries, getAllGames, getAllEntries,
+  getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame, createEntries, getAllGames, getAllEntries, removeGame, removeEntries
 } = require('./lowdb');
 
 const nfc = new NFC();
@@ -57,7 +57,7 @@ const { socket, sockets } = createWebSocketServer(WSS_PORT, (data) => {
 }, () => {
   if (currentGame) {
     removeGame(currentGame);
-    cleanEntriesForGame(currentGame);
+    removeEntries(currentGame);
   }
   currentUser = null;
   currentGame = null;

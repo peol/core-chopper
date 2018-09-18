@@ -90,6 +90,18 @@ function getAllEntries() {
     .value();
 }
 
+function removeGame(currentGame) {
+  gamedb.get('games')
+    .remove({ gameid: currentGame.gameid })
+    .write();
+}
+
+function removeEntries(currentGame) {
+  entrydb.get('entries')
+    .remove({ gameid: currentGame.gameid })
+    .write();
+}
+
 module.exports = {
   getOrCreateUser,
   updateUser,
@@ -99,4 +111,6 @@ module.exports = {
   createEntries,
   getAllGames,
   getAllEntries,
+  removeGame,
+  removeEntries,
 };
