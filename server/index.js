@@ -1,25 +1,38 @@
 const http = require('http');
 const fs = require('fs');
 const { NFC } = require('nfc-pcsc');
+const lowdb = require('./lowdb').Lowdb;
+
 
 const nfc = new NFC();
 const createWebSocketServer = require('./ws');
 const { speedSensor, cadenceSensor, powerSensor } = require('./ant');
+const playerdb = new lowdb('players', { players: [] });
+// const playerdb = require('./lowdb').getInstance('players', { players: [] });
+// const gamedb = require('./lowdb').getInstance('games', { games: [] });
+// const entrydb = require('./lowdb').getInstance('entries', { entries: [] });
+
 
 const REST_PORT = 8081;
 const WSS_PORT = 8080;
 
+
 nfc.on('reader', (reader) => {
   console.log('NFC reader attched');
   reader.on('card', (card) => {
-    // TODO Add logic to query lowdb and search for existing user
+    var player = {userid: card.uid, name: ''};
+    var result = playerdb.get('players').find({ userid: card.uid }).value();
+    if(!result){
+      playerdb.get('players').push(player).write();
+    }
+    else{
+      player.name = result.name;
+    }
+
     console.log(card.uid);
     sockets.forEach(s => s.send(JSON.stringify({
       type: 'nfc',
-      data: {
-        id: card.uid,
-        name: '',
-      },
+      data: player,
     })));
   });
   reader.on('error', (err) => {
