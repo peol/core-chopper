@@ -30,6 +30,15 @@ function getOrCreateUser(id) {
   return player;
 }
 
+function createEntries(currentGame, latestSpeed, latestCadence, latestPower){
+  const entry = {
+    gameid: currentGame.gameid, time: Date.now(),
+    duration: (Date.now - currentGame.starttime), speed: latestSpeed,
+    cadence: latestCadence, power: latestPower
+  }
+  entrydb.get('entries').push(entry).write();
+}
+
 function createGame(user) {
   const game = {
     userid: user.userid, gameid: shortid.generate(),
@@ -63,10 +72,25 @@ function getAllPlayers() {
     .value();
 }
 
+function getAllGames() {
+  return gamedb
+    .get('games')
+    .value();
+}
+
+function getAllEntries() {
+  return entrydb
+    .get('entries')
+    .value();
+}
+
 module.exports = {
   getOrCreateUser,
   updateUser,
   getAllPlayers,
   createGame,
   updateGame,
+  createEntries,
+  getAllGames,
+  getAllEntries,
 };

@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const { NFC } = require('nfc-pcsc');
-const { getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame } = require('./lowdb');
+const { getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame, createEntries, getAllGames, getAllEntries } = require('./lowdb');
 
 const nfc = new NFC();
 const createWebSocketServer = require('./ws');
@@ -67,7 +67,7 @@ speedSensor.on('speedData', (data) => {
   }
   latestWrite = data.SpeedEventTime;
   latestSpeed = data.CalculatedSpeed;
-  // insertEntry(currentUser, { latestSpeed, latestCadence, latestPower });
+  createEntries(currentGame, latestSpeed, latestCadence, latestPower);
   const { DeviceID, CalculatedSpeed, CumulativeSpeedRevolutionCount } = data;
   sockets.forEach(s => s.send(JSON.stringify({
     type: 'ant-speed',
@@ -109,9 +109,15 @@ const server = http.createServer((req, res) => {
       out += players.map(p => `${p.userid},${p.name}\n`).join('');
       res.end(out);
     } else if (req.url === '/csv/games') {
-      res.end(fs.readFileSync(`${__dirname}/mock/games.csv`));
+      const games = getAllGames();
+      let out = 'userid,gameid,starttime,endtime,score\n';
+      out += games.map(p => `${p.userid},${p.gameid},${p.starttime},${p.endtime},${p.score}\n`).join('');
+      res.end(out);
     } else if (req.url === '/csv/entries') {
-      res.end(fs.readFileSync(`${__dirname}/mock/entries.csv`));
+      const entires = getAllEntries();
+      let out = 'gameid,time,duration,speed,cadence,power\n';
+      out += entires.map(p => `${p.gameid},${p.time},${p.duration},${p.speed},${p.cadence},${p.power}\n`).join('');
+      res.end(out);
     } else {
       res.status = 404;
       res.end('Not found');
