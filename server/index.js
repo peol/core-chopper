@@ -62,12 +62,12 @@ const { socket, sockets } = createWebSocketServer(WSS_PORT, (data) => {
 });
 
 speedSensor.on('speedData', (data) => {
-  if (latestWrite === data.SpeedEventTime || !gameId) {
+  if (latestWrite === data.SpeedEventTime) {
     return;
   }
   latestWrite = data.SpeedEventTime;
   latestSpeed = data.CalculatedSpeed;
-  insertEntry(currentUser, { latestSpeed, latestCadence, latestPower });
+  // insertEntry(currentUser, { latestSpeed, latestCadence, latestPower });
   const { DeviceID, CalculatedSpeed, CumulativeSpeedRevolutionCount } = data;
   sockets.forEach(s => s.send(JSON.stringify({
     type: 'ant-speed',

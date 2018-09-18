@@ -23,6 +23,7 @@ export default ex.UIActor.extend({
       this.chopper.locked = false;
       this.chopper.hasBounced = false;
       this.countDownLabel.text = 'GO!!!';
+      this.go();
       setTimeout(() => this.kill(), 2000);
       return;
     }

@@ -21,6 +21,7 @@ export default ex.UIActor.extend({
     ex.Actor.prototype.update.apply(this, [engine, delta]);
     if (this.chopper.dead && !this.gameOverLabel.text) {
       this.gameOverLabel.text = 'Game over, well played!';
+      this.go();
     }
   },
 });
