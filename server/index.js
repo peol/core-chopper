@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const { NFC } = require('nfc-pcsc');
-const { getOrCreateUser, updateUser, getAllPlayers } = require('./lowdb');
+const { getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame } = require('./lowdb');
 
 const nfc = new NFC();
 const createWebSocketServer = require('./ws');
@@ -30,7 +30,7 @@ nfc.on('error', (err) => {
   console.error('NFC card reader error ', err);
 });
 
-let gameId = null;
+let currentGame = null;
 let currentUser = { id: null, name: null };
 let latestSpeed = 0;
 let latestCadence = 0;
@@ -45,24 +45,24 @@ const { socket, sockets } = createWebSocketServer(WSS_PORT, (data) => {
     updateUser(result.data);
     currentUser = result.data;
   } else if (result.type === 'started') {
-    gameId = createGame(currentUser);
+    currentGame = createGame(currentUser);
   } else if (result.type === 'ended') {
     // update games.csv with highscore
     // result.data;
-    updateGame(gameId, result.data);
-    gameId = null;
+    updateGame(currentGame, result.data);
+    currentGame = null;
   }
 }, () => {
-  if (gameId) {
-    removeGame(gameId);
-    cleanEntriesForGame(gameId);
+  if (currentGame) {
+    removeGame(currentGame);
+    cleanEntriesForGame(currentGame);
   }
   currentUser = null;
-  gameId = null;
+  currentGame = null;
 });
 
 speedSensor.on('speedData', (data) => {
-  if (latestWrite === data.SpeedEventTime) {
+  if (latestWrite === data.SpeedEventTime || !currentGame) {
     return;
   }
   latestWrite = data.SpeedEventTime;

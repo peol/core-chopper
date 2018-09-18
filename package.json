@@ -24,6 +24,7 @@
     "react-dom": "^16.4.1",
     "react-outside-click-handler": "1.2.0",
     "react-svg-inline": "2.1.1",
+    "shortid": "^2.2.13",
     "ws": "6.0.0"
   },
   "devDependencies": {

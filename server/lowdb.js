@@ -2,22 +2,7 @@ const lowdb = require('lowdb');
 const fs = require('fs');
 const path = require('path');
 const FileSync = require('lowdb/adapters/FileSync');
-
-// const playerdb = require('./lowdb').getInstance('players', { players: [] });
-// const gamedb = require('./lowdb').getInstance('games', { games: [] });
-// const entrydb = require('./lowdb').getInstance('entries', { entries: [] });
-
-// exports.getInstance = (name, defaults) => {
-//     const databaseFolder = path.join(__dirname, '../', 'database/');
-//     if (!fs.existsSync(databaseFolder)) {
-//         fs.mkdirSync(databaseFolder);
-//     }
-//     const adapter = new FileSync(path.join(databaseFolder, name + '.json'));
-//     const db = lowdb(adapter);
-//     db.defaults(defaults).write();
-//     return db
-// }
-
+const shortid = require('shortid');
 
 function Lowdb(name, defaults) {
   const databaseFolder = path.join(__dirname, '../', 'database/');
@@ -31,6 +16,8 @@ function Lowdb(name, defaults) {
 }
 
 const playerdb = new Lowdb('players', { players: [] });
+const gamedb = new Lowdb('games', { games: [] });
+const entrydb = new Lowdb('entries', { entries: [] });
 
 function getOrCreateUser(id) {
   const player = { userid: id, name: '' };
@@ -41,6 +28,25 @@ function getOrCreateUser(id) {
     player.name = result.name;
   }
   return player;
+}
+
+function createGame(user) {
+  const game = {
+    userid: user.userid, gameid: shortid.generate(),
+    starttime: Date.now(), endtime: '', score: 0
+  }
+  gamedb.get('games').push(game).write();
+  return game;
+}
+
+function updateGame(currentGame, gamedata){
+  currentGame.endtime = Date.now();
+  currentGame.score = gamedata.score;
+  gamedb
+  .get('games')
+  .find({ gameid: currentGame.gameid })
+  .assign(currentGame)
+  .write();
 }
 
 function updateUser(user) {
@@ -61,4 +67,6 @@ module.exports = {
   getOrCreateUser,
   updateUser,
   getAllPlayers,
+  createGame,
+  updateGame,
 };
