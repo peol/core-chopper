@@ -30,32 +30,38 @@ function getOrCreateUser(id) {
   return player;
 }
 
-function createEntries(currentGame, latestSpeed, latestCadence, latestPower){
+function createEntries(currentGame, latestSpeed, latestCadence, latestPower) {
   const entry = {
-    gameid: currentGame.gameid, time: Date.now(),
-    duration: (Date.now - currentGame.starttime), speed: latestSpeed,
-    cadence: latestCadence, power: latestPower
-  }
+    gameid: currentGame.gameid,
+    time: +Date.now(),
+    duration: +Date.now() - currentGame.starttime,
+    speed: latestSpeed,
+    cadence: latestCadence,
+    power: latestPower,
+  };
   entrydb.get('entries').push(entry).write();
 }
 
 function createGame(user) {
   const game = {
-    userid: user.userid, gameid: shortid.generate(),
-    starttime: Date.now(), endtime: '', score: 0
-  }
+    userid: user.userid,
+    gameid: shortid.generate(),
+    starttime: Date.now(),
+    endtime: '',
+    score: 0,
+  };
   gamedb.get('games').push(game).write();
   return game;
 }
 
-function updateGame(currentGame, gamedata){
+function updateGame(currentGame, gamedata) {
   currentGame.endtime = Date.now();
   currentGame.score = gamedata.score;
   gamedb
-  .get('games')
-  .find({ gameid: currentGame.gameid })
-  .assign(currentGame)
-  .write();
+    .get('games')
+    .find({ gameid: currentGame.gameid })
+    .assign(currentGame)
+    .write();
 }
 
 function updateUser(user) {

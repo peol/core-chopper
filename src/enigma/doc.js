@@ -88,28 +88,17 @@ async function getNewDoc() {
 
   const script = `
 [games]:
-LOAD
-  [userid],
-  [gameid],
-  [timestamp],
-  [score]
+LOAD *
 FROM [lib://games]
 (txt, codepage is 1252, embedded labels, delimiter is ',', msq);
 
 [players]:
-LOAD
-  [userid],
-  [name]
+LOAD *
 FROM [lib://players]
 (txt, utf8, embedded labels, delimiter is ',', msq);
 
 [entries]:
-LOAD
-  [gameid],
-  [time],
-  [speed],
-  [cadence],
-  [power]
+LOAD *
 FROM [lib://entries]
 (txt, codepage is 1252, embedded labels, delimiter is ',', msq);
   `;

@@ -1,7 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 const { NFC } = require('nfc-pcsc');
-const { getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame, createEntries, getAllGames, getAllEntries } = require('./lowdb');
+const {
+  getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame, createEntries, getAllGames, getAllEntries,
+} = require('./lowdb');
 
 const nfc = new NFC();
 const createWebSocketServer = require('./ws');
@@ -62,12 +64,14 @@ const { socket, sockets } = createWebSocketServer(WSS_PORT, (data) => {
 });
 
 speedSensor.on('speedData', (data) => {
-  if (latestWrite === data.SpeedEventTime || !currentGame) {
+  if (latestWrite === data.SpeedEventTime) {
     return;
   }
   latestWrite = data.SpeedEventTime;
   latestSpeed = data.CalculatedSpeed;
-  createEntries(currentGame, latestSpeed, latestCadence, latestPower);
+  if (currentGame) {
+    createEntries(currentGame, latestSpeed, latestCadence, latestPower);
+  }
   const { DeviceID, CalculatedSpeed, CumulativeSpeedRevolutionCount } = data;
   sockets.forEach(s => s.send(JSON.stringify({
     type: 'ant-speed',
