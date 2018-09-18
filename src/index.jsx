@@ -44,13 +44,17 @@ class Index extends React.Component {
   }
 
   done(user) {
+    this.socket.send(JSON.stringify({
+      type: 'set-user',
+      data: user,
+    }));
     this.setState({ user });
   }
 
   render() {
     const { user } = this.state;
     let view;
-    if (!user.id || !user.name) {
+    if (!user.userid || !user.name) {
       view = (
         <div className="start">
           <Scan user={user} onDone={u => this.done(u)} />

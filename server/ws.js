@@ -1,12 +1,12 @@
 const WebSocket = require('ws');
 
-module.exports = function create(port) {
+module.exports = function create(port, onMessage, onClose) {
   const socket = new WebSocket.Server({ port });
   const sockets = [];
 
   socket.on('connection', (ws) => {
     sockets.push(ws);
-
+    ws.on('message', onMessage);
     /* ws.on('send', (message) => {
       console.log('sent: %s', message);
     });

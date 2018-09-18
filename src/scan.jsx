@@ -10,10 +10,14 @@ export default class Scan extends React.Component {
     this.done = props.onDone;
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ user: nextProps.user });
+  }
+
   manualInput(evt) {
     const { user } = this.state;
-    if (!user.id) {
-      user.id = +new Date();
+    if (!user.userid) {
+      user.userid = +new Date();
     }
     user.name = evt.target.value;
     if (user.name.trim() !== '' && evt.key === 'Enter') {
@@ -39,7 +43,7 @@ Write your name:
         </div>
       </div>
     );
-    if (!user.id) {
+    if (!user.userid) {
       return useScanner ? scanner : manual;
     } if (!user.name) {
       return (
@@ -48,7 +52,7 @@ Write your name:
 Looks like this is your first time riding the chopper!
 Please fill in your name:
           </p>
-          <input onChange={evt => this.updateName(evt)} />
+          <input onKeyUp={evt => this.manualInput(evt)} />
         </div>
       );
     }
