@@ -1,0 +1,12 @@
+.dashboard {
+  padding: 1rem 2rem;
+}
+
+.dashboard .top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard .top > div {
+  width: 40%;
+}

@@ -7,28 +7,18 @@ export default ex.UIActor.extend({
     ex.Actor.apply(this, [0, 0]);
     this.chopper = chopper;
     this.maxScore = 0;
-    this.powerLabel = new ex.Label({
-      baseAlign: ex.BaseAlign.Top,
-      fontFamily: 'VT323',
-      fontSize: 48,
+    this.powerLabel = new ex.Label(Object.assign({}, Settings.labelBase, {
       pos: new ex.Vector(20, 20),
-      color: ex.Color.White,
-    });
-    this.scoreLabel = new ex.Label({
-      baseAlign: ex.BaseAlign.Top,
-      fontFamily: 'VT323',
-      fontSize: 48,
+    }));
+    this.scoreLabel = new ex.Label(Object.assign({}, Settings.labelBase, {
       pos: new ex.Vector(20, engine.drawHeight - 64),
-      color: ex.Color.White,
-    });
-    this.heightLabel = new ex.Label({
-      fontFamily: 'VT323',
+    }));
+    this.heightLabel = new ex.Label(Object.assign({}, Settings.labelBase, {
       fontSize: 60,
       textAlign: ex.TextAlign.Center,
       baseAlign: ex.BaseAlign.Top,
       pos: new ex.Vector(engine.drawWidth / 2, engine.drawHeight / 2 - 50),
-      color: ex.Color.White,
-    });
+    }));
     this.add(this.powerLabel);
     this.add(this.scoreLabel);
     this.add(this.heightLabel);

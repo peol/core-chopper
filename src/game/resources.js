@@ -1,8 +1,8 @@
 import * as ex from 'excalibur';
 
-import chopper from './sprites/chopper.png';
-import bss2 from './sprites/brickspritesheet.png';
-import cloud from './sprites/cloud.png';
+import chopper from '../resources/sprites/chopper.png';
+import bss2 from '../resources/sprites/brickspritesheet.png';
+import cloud from '../resources/sprites/cloud.png';
 
 export default {
   Chopper: new ex.Texture(chopper),

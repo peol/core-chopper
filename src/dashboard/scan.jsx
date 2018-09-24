@@ -1,6 +1,5 @@
 import React from 'react';
 
-import badge from './images/id-badge.svg';
 import './scan.css';
 
 export default class Scan extends React.Component {
@@ -16,11 +15,11 @@ export default class Scan extends React.Component {
 
   manualInput(evt) {
     const { user } = this.state;
+    user.name = evt.target.value.trim();
     if (!user.userid) {
-      user.userid = +new Date();
+      user.userid = user.name;
     }
-    user.name = evt.target.value;
-    if (user.name.trim() !== '' && evt.key === 'Enter') {
+    if (user.name !== '' && evt.key === 'Enter') {
       // close view
       this.done(user);
     }
@@ -40,8 +39,7 @@ Write your name:
     const scanner = (
       <div className="scan">
         <div className="badge" onClick={() => this.setState({ useScanner: !useScanner })}>
-          <img alt="ID badge icon" src={badge} />
-          <p>Scan your ID badge to begin</p>
+          <h2>Scan ID badge to play!</h2>
         </div>
       </div>
     );

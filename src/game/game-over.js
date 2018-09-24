@@ -6,15 +6,12 @@ export default ex.UIActor.extend({
   constructor(engine, chopper) {
     ex.Actor.apply(this, [0, 0]);
     this.chopper = chopper;
-    this.gameOverLabel = new ex.Label({
+    this.gameOverLabel = new ex.Label(Object.assign({}, Settings.labelBase, {
       textAlign: ex.TextAlign.Center,
       baseAlign: ex.BaseAlign.Top,
-      fontFamily: 'VT323',
       fontSize: 84,
       pos: new ex.Vector(engine.drawWidth / 2, (engine.drawHeight / 2) - 200),
-      color: ex.Color.White,
-    });
-    this.chopper.vel.y = -100;
+    }));
     this.add(this.gameOverLabel);
   },
 

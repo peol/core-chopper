@@ -1,8 +1,17 @@
+/* eslint no-console: 0 */
 const http = require('http');
-const fs = require('fs');
 const { NFC } = require('nfc-pcsc');
 const {
-  getOrCreateUser, updateUser, getAllPlayers, createGame, updateGame, createEntries, getAllGames, getAllEntries, removeGame, removeEntries
+  getOrCreateUser,
+  updateUser,
+  getAllPlayers,
+  createGame,
+  updateGame,
+  createEntries,
+  getAllGames,
+  getAllEntries,
+  removeGame,
+  removeEntries,
 } = require('./lowdb');
 
 const nfc = new NFC();
@@ -11,6 +20,37 @@ const { speedSensor, cadenceSensor, powerSensor } = require('./ant');
 
 const REST_PORT = 8081;
 const WSS_PORT = 8080;
+
+let currentGame = null;
+let currentUser = { userid: null, name: null };
+let latestSpeed = 0;
+let latestCadence = 0;
+let latestPower = 0;
+let latestWrite = 0;
+
+const { sockets } = createWebSocketServer(WSS_PORT, (data) => {
+  const result = JSON.parse(data);
+  console.log('socket data', result);
+  if (result.type === 'set-user') {
+    getOrCreateUser(result.data.userid);
+    updateUser(result.data);
+    currentUser = result.data;
+  } else if (result.type === 'started') {
+    currentGame = createGame(currentUser);
+  } else if (result.type === 'ended') {
+    updateGame(currentGame, result.data);
+    currentGame = null;
+  }
+}, () => {
+  console.log('socket closed');
+  if (currentGame) {
+    console.log('cleaning up ongoing game due to socket interruption');
+    removeGame(currentGame);
+    removeEntries(currentGame);
+  }
+  currentUser = null;
+  currentGame = null;
+});
 
 nfc.on('reader', (reader) => {
   console.log('NFC reader attached');
@@ -26,41 +66,6 @@ nfc.on('reader', (reader) => {
   reader.on('error', (err) => {
     console.error('error reading card ', err);
   });
-});
-
-nfc.on('error', (err) => {
-  console.error('NFC card reader error ', err);
-});
-
-let currentGame = null;
-let currentUser = { id: null, name: null };
-let latestSpeed = 0;
-let latestCadence = 0;
-let latestPower = 0;
-let latestWrite = 0;
-
-
-const { socket, sockets } = createWebSocketServer(WSS_PORT, (data) => {
-  const result = JSON.parse(data);
-  console.log('socket data', result);
-  if (result.type === 'set-user') {
-    updateUser(result.data);
-    currentUser = result.data;
-  } else if (result.type === 'started') {
-    currentGame = createGame(currentUser);
-  } else if (result.type === 'ended') {
-    // update games.csv with highscore
-    // result.data;
-    updateGame(currentGame, result.data);
-    currentGame = null;
-  }
-}, () => {
-  if (currentGame) {
-    removeGame(currentGame);
-    removeEntries(currentGame);
-  }
-  currentUser = null;
-  currentGame = null;
 });
 
 speedSensor.on('speedData', (data) => {

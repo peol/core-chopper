@@ -2,11 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Header from './header';
-import Scan from './scan';
-import HighScore from './high-score';
-import Stats from './stats';
-import PowerChart from './power-chart';
-import Engine from './engine';
+import Dashboard from './dashboard/layout';
+import Engine from './game/engine';
 
 import './index.css';
 
@@ -19,7 +16,7 @@ class Index extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: { id: null, name: '' },
+      user: { userid: null, name: '' },
     };
     this.listeners = [];
     this.socket = new WebSocket('ws://localhost:8080');
@@ -71,17 +68,8 @@ class Index extends React.Component {
     let view;
     if (!user.userid || !user.name) {
       view = (
-        <div className="start-wrapper">
-          <div className="start">
-            <Scan user={user} onDone={u => this.done(u)} />
-            <div className="info">
-              <HighScore />
-              <Stats />
-            </div>
-          </div>
-          <PowerChart />
-        </div>
-      ); //
+        <Dashboard user={user} onDone={(...args) => this.done(...args)} />
+      );
     } else {
       view = (
         <Engine
@@ -92,13 +80,13 @@ class Index extends React.Component {
         />
       );
     }
-    // todo: fix this.setState({ user: { id: null, name: null } })
+    // todo: fix this.setState({ user: { userid: null, name: null } })
     // need to tear down the game engine instance somehow
     /* eslint no-restricted-globals:0 */
     //
     return (
       <div className="index">
-        <Header onClose={() => location.reload()} />
+        <Header showBack={!!user} onClose={() => location.reload()} />
         {view}
       </div>
     );

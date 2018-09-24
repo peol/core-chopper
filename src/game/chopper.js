@@ -9,7 +9,7 @@ export default ex.Actor.extend({
     const centerY = engine.drawHeight / 2;
     ex.Actor.apply(this, [
       centerX,
-      -centerY * Settings.scale.y,
+      -150, // -centerY * Settings.scale.y,
       Settings.CHOPPER_WIDTH,
       Settings.CHOPPER_HEIGHT,
     ]);
@@ -34,16 +34,13 @@ export default ex.Actor.extend({
     this.addDrawing('up', this.upAnimation);
     this.addDrawing('down', this.downAnimation);
 
+    // TODO: fix glitchy collision
     this.on('precollision', () => {
       if (this.dead) {
         return;
       }
-      // dispatcher.stop();
-      // this.actionQueue.clearActions();
       this.dead = true;
       this.rx = 10;
-      // engine.input.pointers.primary.off('down');
-      // gameOver();
       engine.currentScene.camera.shake(10, 10, 500);
       this.vel.y = 0;
       this.y += 20;
@@ -53,18 +50,17 @@ export default ex.Actor.extend({
 
   update(engine, delta) {
     ex.Actor.prototype.update.apply(this, [engine, delta]);
+    if (this.dead || !this.hasBounced || this.locked) {
+      return;
+    }
     if (this.y > 0) {
+      // TODO: Remove this when floor collision is fixed
       this.dead = true;
       this.rx = 10;
-      // engine.input.pointers.primary.off('down');
-      // gameOver();
       engine.currentScene.camera.shake(10, 10, 500);
       this.vel.y = 0;
       this.y += 20;
       this.kill();
-    }
-    if (this.dead || !this.hasBounced || this.locked) {
-      return;
     }
     const powerModifier = this.y / 50;
     this.powerModifier = powerModifier;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production parcel build src/index.html --log-level 5",
+    "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html",
     "lint": "eslint --ext .js,.jsx src/",
     "lint:fix": "eslint --ext .js,.jsx --fix src/"
@@ -17,8 +17,8 @@
     "excalibur": "^0.18.0",
     "lowdb": "^1.0.0",
     "nfc-pcsc": "^0.6.2",
-    "picasso-plugin-q": "^0.12.2",
-    "picasso.js": "^0.12.2",
+    "picasso-plugin-q": "^0.13.2",
+    "picasso.js": "^0.13.2",
     "prop-types": "^15.6.2",
     "react": "16.5.1",
     "react-dom": "^16.4.1",

@@ -1,14 +1,14 @@
 import React from 'react';
 import * as ex from 'excalibur';
 
-import Chopper from './game/chopper';
-import Cloud from './game/cloud';
-import Floor from './game/floor';
-import Resources from './game/resources';
-import Settings from './game/settings';
-import CountDown from './game/count-down';
-import GameOver from './game/game-over';
-import HUD from './game/hud';
+import Chopper from './chopper';
+import Cloud from './cloud';
+import Floor from './floor';
+import Resources from './resources';
+import Settings from './settings';
+import CountDown from './count-down';
+import GameOver from './game-over';
+import HUD from './hud';
 
 import './engine.css';
 
@@ -77,7 +77,7 @@ class Engine extends React.Component {
       }
       engine.add(hud);
       engine.input.pointers.primary.on('down', () => {
-        chopper.bounce(5);
+        chopper.bounce(250);
       });
       engine.currentScene.camera.strategy.lockToActor(chopper);
     });

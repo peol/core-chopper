@@ -5,6 +5,7 @@
   box-shadow: 0 0 6px #000;
   position: relative;
   justify-content: space-between;
+  height: 42px;
 }
 
 .header > div {

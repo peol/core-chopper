@@ -11,4 +11,10 @@ export default {
   MAX_DOWNWARDS_VELOCITY: 2000,
   LEVEL_SPEED: -200,
   scale: DEFAULT_SCALE,
+  labelBase: {
+    baseAlign: ex.BaseAlign.Top,
+    fontFamily: 'VT323',
+    fontSize: 48,
+    color: ex.Color.White,
+  },
 };
