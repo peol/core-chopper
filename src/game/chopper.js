@@ -65,7 +65,7 @@ export default ex.Actor.extend({
     const powerModifier = this.y / 50;
     this.powerModifier = powerModifier;
     if (!this.animatingUpwards) {
-      this.unclampedVelocity = this.vel.y + (Settings.ACCELERATION / 60);
+      this.unclampedVelocity = this.vel.y + (Settings.ACCELERATION / 100 );
       this.vel.y = ex.Util.clamp(
         this.unclampedVelocity,
         -Settings.MAX_VELOCITY,
