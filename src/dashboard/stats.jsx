@@ -1,6 +1,7 @@
 import React from 'react';
 
-import EnigmaModel from '../enigma/model';
+import useModel from '../hooks/model';
+import useLayout from '../hooks/layout';
 
 const genericProps = {
   qInfo: {
@@ -12,43 +13,39 @@ const genericProps = {
   avgCadence: { qStringExpression: 'AVG(cadence)' },
 };
 
-export default class Stats extends EnigmaModel {
-  constructor() {
-    super({ genericProps });
+export default function () {
+  const layout = useLayout(useModel(genericProps));
+
+  if (!layout) {
+    return (<p>Loading...</p>);
   }
 
-  render() {
-    const { layout } = this.state;
-    if (!layout) {
-      return (<p>Loading...</p>);
-    }
-    const avgSpeed = +layout.avgSpeed || 0;
-    const avgCadence = +layout.avgCadence || 0;
-    return (
-      <div className="stats">
-        <p>
+  const avgSpeed = +layout.avgSpeed || 0;
+  const avgCadence = +layout.avgCadence || 0;
+  return (
+    <div className="stats">
+      <p>
 A total of
-          {' '}
-          <strong>{layout.nbrOfPlayers}</strong>
-          {' '}
+        {' '}
+        <strong>{layout.nbrOfPlayers}</strong>
+        {' '}
 players has flown
-          {' '}
-          <strong>{layout.nbrOfFlights}</strong>
-          {' '}
+        {' '}
+        <strong>{layout.nbrOfFlights}</strong>
+        {' '}
 runs, averaging a speed of
-          {' '}
-          <strong>
-            {Math.round(avgSpeed * 18 / 5)}
-          </strong>
-          {' '}
+        {' '}
+        <strong>
+          {Math.round(avgSpeed * 18 / 5)}
+        </strong>
+        {' '}
 km/h with an average cadence of
-          {' '}
-          <strong>
-            {Math.round(avgCadence)}
-          </strong>
+        {' '}
+        <strong>
+          {Math.round(avgCadence)}
+        </strong>
 .
-        </p>
-      </div>
-    );
-  }
+      </p>
+    </div>
+  );
 }

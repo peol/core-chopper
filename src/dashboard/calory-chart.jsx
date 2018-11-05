@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import picassoQ from 'picasso-plugin-q';
 import picasso from 'picasso.js';
 
-import EnigmaModel from '../enigma/model';
+import useModel from '../hooks/model';
+import useLayout from '../hooks/layout';
+import usePicasso from '../hooks/picasso';
 
 import './calory-chart.css';
 
@@ -163,62 +165,26 @@ const settings = {
   }],
 };
 
-export default class CaloryChart extends EnigmaModel {
-  constructor({ player }) {
-    super({ genericProps });
-    this.state = { player };
-  }
+export default function ({ player }) {
+  const layout = useLayout(useModel(genericProps));
+  const elementRef = useRef(null);
+  const pic = usePicasso(elementRef.current, settings, layout);
 
-  componentWillReceiveProps({ player }) {
-    this.setState({ player });
-  }
-
-  async renderPicasso() {
-    const { layout } = this.state;
-    // const field = await this.getField('name');
-    // await field.selectValues([{ qText: 'Andrée' }, { qText: 'Johan B' }]);
-
-    const data = [{
-      type: 'q',
-      key: 'qHyperCube',
-      data: layout.qHyperCube,
-    }];
-
-    this.resetChart = () => {
-      const { player } = this.state;
-      const brush = this.pic.brush('highlight');
-      brush.clear();
-      if (player.userid) {
-        brush.addValue('qHyperCube/qDimensionInfo/0', player.userid);
-      } else {
-        brush.end();
-      }
-    };
-
-    this.pic = picasso.chart({
-      element: this.container,
-      data,
-      settings,
-    });
-
-    this.resetChart();
-  }
-
-  render() {
-    const { layout } = this.state;
-
-    if (layout && this.container && !this.pic) {
-      // we need to have the `this.container` reference available when rendering:
-      setTimeout(() => this.renderPicasso());
+  useEffect(() => {
+    if (!pic) return;
+    const brush = pic.brush('highlight');
+    brush.clear();
+    if (player.userid) {
+      brush.addValue('qHyperCube/qDimensionInfo/0', player.userid);
+    } else {
+      brush.end();
     }
-    if (this.resetChart) {
-      this.resetChart();
-    }
-    return (
-      <div className="card full-width">
-        <h2>Most kcal spent</h2>
-        <div className="calory-chart" ref={(elem) => { this.container = elem; }}>Loading...</div>
-      </div>
-    );
-  }
+  }, [pic, player]);
+
+  return (
+    <div className="card full-width">
+      <h2>Most kcal spent</h2>
+      <div className="calory-chart" ref={elementRef}>Loading...</div>
+    </div>
+  );
 }

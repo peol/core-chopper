@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import * as ex from 'excalibur';
 
 import Chopper from './chopper';
@@ -12,35 +12,28 @@ import HUD from './hud';
 
 import './engine.css';
 
-let id = 0;
+export default function ({ player, socket }) {
+  const gameid = useRef(null);
+  const [storedChopper, setChopper] = useState(null);
+  const [canvasId] = useState(`canvas${Date.now()}`);
 
-class Engine extends React.Component {
-  constructor({ player, socket }) {
-    super();
-    this.eventListener = this.bounceChopper.bind(this);
-    socket.on('game:tick', this.eventListener);
-    this.gameListener = this.gameIdUpdated.bind(this);
-    socket.on('game:created', this.gameListener);
-    this.state = { player, socket, canvasId: `game${id += 1}` };
-  }
+  useEffect(() => {
+    const changed = (data) => { gameid.current = data.gameid; };
+    socket.on('game:created', changed);
+    return () => socket.off('game:created', changed);
+  }, []);
 
-  gameIdUpdated({ gameid }) {
-    this.setState({ gameid });
-  }
+  useEffect(() => {
+    const ticked = (data) => {
+      if (storedChopper) storedChopper.bounce(data.Power);
+    };
+    socket.on('game:tick', ticked);
+    return () => socket.off('game:tick', ticked);
+  }, []);
 
-  bounceChopper({ Power }) {
-    if (this.chopper && Power) {
-      this.chopper.bounce(Power);
-    }
-  }
-
-  init() {
-    const { canvasId, socket } = this.state;
-    this.isInitialized = true;
-
+  useEffect(() => {
     const loader = new ex.Loader();
     Object.keys(Resources).forEach(key => loader.addResource(Resources[key]));
-
     const engine = new ex.Engine({
       displayMode: ex.DisplayMode.Container,
       canvasElementId: canvasId,
@@ -57,7 +50,6 @@ class Engine extends React.Component {
       const hud = new HUD(engine, chopper);
       const gameOver = new GameOver(engine, chopper);
       countDown.go = () => {
-        const { player } = this.state;
         socket.send({
           type: 'game:create',
           data: {
@@ -66,16 +58,15 @@ class Engine extends React.Component {
         });
       };
       gameOver.go = () => {
-        const { gameid } = this.state;
         socket.send({
           type: 'game:end',
           data: {
-            gameid,
+            gameid: gameid.current,
             score: hud.maxScore,
           },
         });
       };
-      this.chopper = chopper;
+      setChopper(chopper);
       engine.add(chopper);
       engine.add(countDown);
       engine.add(gameOver);
@@ -91,15 +82,7 @@ class Engine extends React.Component {
       });
       engine.currentScene.camera.strategy.lockToActor(chopper);
     });
-  }
+  }, []);
 
-  render() {
-    const { canvasId } = this.state;
-    if (!this.isInitialized) {
-      setTimeout(() => this.init());
-    }
-    return <div className="engine"><canvas id={canvasId} /></div>;
-  }
+  return <div className="engine"><canvas id={canvasId} /></div>;
 }
-
-export default Engine;

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import picassoQ from 'picasso-plugin-q';
 import picasso from 'picasso.js';
 
-import EnigmaModel from '../enigma/model';
+import useModel from '../hooks/model';
+import useLayout from '../hooks/layout';
+import useContinuousLayout from '../hooks/continuous-layout';
+import usePicasso from '../hooks/picasso';
 
 import './power-chart.css';
 
@@ -192,97 +195,54 @@ const settings = {
   }],
 };
 
-export default class PowerChart extends EnigmaModel {
-  constructor({ player }) {
-    super({ genericProps });
-    this.state = { player };
-  }
+export default function ({ player }) {
+  const model = useModel(genericProps);
+  const layout = useLayout(model);
+  const continuousLayout = useContinuousLayout(model, layout);
+  const elementRef = useRef(null);
+  const pic = usePicasso(elementRef.current, settings, continuousLayout);
+  const resetChart = () => {
+    const brush = pic.brush('highlight');
+    brush.clear();
+    if (player.userid) {
+      brush.addValue('qHyperCube/qDimensionInfo/0', player.userid);
+    } else {
+      brush.end();
+    }
+  };
 
-  componentWillReceiveProps({ player }) {
-    this.setState({ player });
-  }
-
-  async renderPicasso() {
-    const { layout, model } = this.state;
-    // const field = await this.getField('name');
-    // await field.selectValues([{ qText: 'Andrée' }, { qText: 'Johan B' }]);
-    const contData = await model.getHyperCubeContinuousData(
-      '/qHyperCubeDef',
-      {
-        qStart: 0,
-        qEnd: layout.qHyperCube.qDimensionInfo[0].qMax,
-        qNbrPoints: 32,
-        qMaxNbrTicks: 300,
-      },
-    );
-    layout.qHyperCube.qDataPages = contData.qDataPages;
-    Object.assign(layout.qHyperCube.qDataPages[0].qArea, {
-      qWidth: 3,
-      qHeight: 1200000,
-    });
-
-    const data = [{
-      type: 'q',
-      key: 'qHyperCube',
-      data: layout.qHyperCube,
-    }];
-
-    this.resetChart = () => {
-      const { player } = this.state;
-      const brush = this.pic.brush('highlight');
-      brush.clear();
-      if (player.userid) {
-        brush.addValue('qHyperCube/qDimensionInfo/1', player.userid);
-      } else {
-        brush.end();
-      }
-    };
-
-    this.pic = picasso.chart({
-      element: this.container,
-      data,
+  useEffect(() => {
+    if (!pic) return;
+    pic.update({
       settings: Object.assign({}, settings, {
         interactions: [{
           type: 'native',
           events: {
-            mousemove(e) {
-              const b = this.chart.element.getBoundingClientRect();
-              const p = {
+            mousemove: (e) => {
+              const b = pic.element.getBoundingClientRect();
+              const pos = {
                 x: e.clientX - b.left,
                 y: e.clientY - b.top,
               };
-              const brush = this.chart.brush('highlight');
-              const shapes = this.chart.shapesAt(p);
+              const brush = pic.brush('highlight');
+              const shapes = pic.shapesAt(pos);
               if (shapes.length) {
                 brush.clear();
                 const values = shapes.map(s => s.data.label.split('::')[2]);
                 brush.addValue('qHyperCube/qDimensionInfo/1', values[0]);
               }
             },
-            mouseleave: () => this.resetChart(),
+            mouseleave: resetChart,
           },
         }],
       }),
     });
+  }, [pic]);
 
-    this.resetChart();
-  }
-
-  render() {
-    const { layout } = this.state;
-
-    if (layout && this.container && !this.pic) {
-      // we need to have the `this.container` reference available when rendering:
-      setTimeout(() => this.renderPicasso());
-    }
-    if (this.resetChart) {
-      this.resetChart();
-    }
-    return (
-      <div className="card full-width">
-        <h2>Power over time</h2>
-        <div className="power-chart" ref={(elem) => { this.container = elem; }}>Loading...</div>
-      </div>
-    );
-  }
+  return (
+    <div className="card full-width">
+      <h2>Power over time</h2>
+      <div className="power-chart" ref={elementRef}>Loading...</div>
+    </div>
+  );
 }

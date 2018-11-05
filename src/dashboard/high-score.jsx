@@ -1,6 +1,7 @@
 import React from 'react';
 
-import EnigmaModel from '../enigma/model';
+import useModel from '../hooks/model';
+import useLayout from '../hooks/layout';
 import Stats from './stats';
 
 import './high-score.css';
@@ -52,54 +53,48 @@ const genericPropsDistinct = {
   },
 };
 
-export default class HighScore extends EnigmaModel {
-  constructor({ player, distinct }) {
-    super({ genericProps: distinct ? genericPropsDistinct : genericProps });
-    this.state = { player, distinct };
+export default function ({ player, distinct }) {
+  const layout = useLayout(useModel(distinct ? genericPropsDistinct : genericProps));
+
+  if (!layout) {
+    return (<div className="card"><p>Loading...</p></div>);
   }
 
-  componentWillReceiveProps({ player }) {
-    this.setState({ player });
+  const title = distinct ? 'Personal bests' : 'High scores';
+  const matrix = layout.qHyperCube.qDataPages[0].qMatrix;
+
+  if (!matrix.length) {
+    return (<p>No highscores yet!</p>);
   }
 
-  render() {
-    const { player, layout, distinct } = this.state;
-    if (!layout) {
-      return (<div className="card"><p>Loading...</p></div>);
-    }
-    const title = distinct ? 'Personal bests' : 'High scores';
-    const matrix = layout.qHyperCube.qDataPages[0].qMatrix;
-    if (!matrix.length) {
-      return (<p>No highscores yet!</p>);
-    }
-    const rows = matrix
-      .map((r, i) => {
-        const classes = [r[0].qText === player.userid ? 'me' : ''];
-        return (
-          <tr key={r[0].qText + r[2].qNum + distinct} className={classes}>
-            <td>{i + 1}</td>
-            <td>{r[1].qText}</td>
-            <td>{r[2].qText}</td>
+  const rows = matrix
+    .map((r, i) => {
+      const classes = [r[0].qText === player.userid ? 'me' : ''];
+      return (
+        <tr key={r[0].qText + r[2].qNum + distinct} className={classes}>
+          <td>{i + 1}</td>
+          <td>{r[1].qText}</td>
+          <td>{r[2].qText}</td>
+        </tr>
+      );
+    });
+
+  return (
+    <div className="card high-score">
+      <h2>{title}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Score</th>
           </tr>
-        );
-      });
-    return (
-      <div className="card high-score">
-        <h2>{title}</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-        {distinct ? '' : <Stats />}
-      </div>
-    );
-  }
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+      {distinct ? '' : <Stats />}
+    </div>
+  );
 }

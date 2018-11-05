@@ -2,74 +2,60 @@ import React from 'react';
 
 import './scan.css';
 
-export default class Scan extends React.Component {
-  constructor({ player, socket }) {
-    super();
-    this.state = { player, socket };
-  }
+function signInAsTestUser(socket) {
+  socket.send({
+    type: 'player:save',
+    data: {
+      userid: 'test',
+      name: 'Test U',
+      cardid: 'test',
+    },
+  });
+}
 
-  componentWillReceiveProps({ player }) {
-    this.setState({ player });
-  }
+function playerScanned(socket, player) {
+  socket.receive(JSON.stringify({
+    type: 'player:scanned',
+    data: player,
+  }));
+}
 
-  manualInput(evt) {
-    const { player, socket } = this.state;
-    player.name = evt.target.value.trim();
-    if (player.userid && player.name !== '' && evt.key === 'Enter') {
+
+export default function ({ player, socket }) {
+  const manualInput = (evt) => {
+    const newPlayer = Object.assign({}, player);
+    newPlayer.name = evt.target.value.trim();
+    if (newPlayer.userid && newPlayer.name !== '' && evt.key === 'Enter') {
       // save it:
-      socket.send({ type: 'player:save', data: player });
+      socket.send({ type: 'player:save', data: newPlayer });
     }
-  }
+  };
 
-  testUser() {
-    const { socket } = this.state;
-    socket.send({
-      type: 'player:save',
-      data: {
-        userid: 'test',
-        name: 'Test U',
-        cardid: 'test',
-      },
-    });
-  }
+  let view;
 
-  testUserScanned() {
-    const { socket, player } = this.state;
-    socket.receive(JSON.stringify({
-      type: 'player:scanned',
-      data: player,
-    }));
-  }
-
-  render() {
-    const { player } = this.state;
-
-    let view;
-
-    if (!player || !player.userid) {
-      view = (
-        <h2 onClick={() => this.testUser()}>Scan ID badge to sign in!</h2>
-      );
-    } else if (player.userid && !player.name) {
-      view = (
-        <div className="name">
-          <p>
+  if (!player || !player.userid) {
+    view = (
+      <h2 onClick={() => signInAsTestUser(socket)}>Scan ID badge to sign in!</h2>
+    );
+  } else if (player.userid && !player.name) {
+    view = (
+      <div className="name">
+        <p>
 Looks like this is your first time flying the chopper!
 Please fill in your name:
-          </p>
-          <input autoFocus onKeyUp={evt => this.manualInput(evt)} />
-        </div>
-      );
-    } else {
-      view = (
-        <h2 onClick={() => this.testUserScanned()}>
+        </p>
+        <input autoFocus onKeyUp={manualInput} />
+      </div>
+    );
+  } else {
+    view = (
+      <h2 onClick={() => playerScanned(socket, player)}>
 Welcome,
-          {' '}
-          <strong>{player.name}</strong>
+        {' '}
+        <strong>{player.name}</strong>
 ! Scan your ID badge again to play!
-        </h2>
-      );
-    }
-    return (<div className="scan">{view}</div>);
+      </h2>
+    );
   }
+  return (<div className="scan">{view}</div>);
 }

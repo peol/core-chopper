@@ -26,6 +26,7 @@
     "react-dom": "16.7.0-alpha.0",
     "react-outside-click-handler": "1.2.0",
     "react-svg-inline": "2.1.1",
+    "react-use-promise": "0.0.0-alpha.1",
     "shortid": "^2.2.13",
     "ws": "6.0.0"
   },

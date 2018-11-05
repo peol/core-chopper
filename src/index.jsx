@@ -1,9 +1,10 @@
 import '@babel/polyfill';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-import Socket from './socket';
+import useSocket from './hooks/socket';
+import usePlayer from './hooks/player';
 import Header from './header';
 import Dashboard from './dashboard/layout';
 import Engine from './game/engine';
@@ -15,49 +16,33 @@ import './index.css';
 // algorithm in parcel:
 window.React = React;
 
-class Index extends React.Component {
-  constructor() {
-    super();
-    const socket = new Socket();
-    this.updatedListener = player => this.setState({ player });
-    this.scannedListener = (scannedPlayer) => {
-      const { player } = this.state;
-      if (player.userid === scannedPlayer.userid) {
-        this.setState({ isStarted: true });
-      } else {
-        this.setState({ player: scannedPlayer });
-      }
-    };
-    socket.on('player:saved', this.updatedListener);
-    socket.on('player:scanned', this.scannedListener);
-    this.state = { player: {}, socket };
-  }
+function Index() {
+  const socket = useSocket();
+  const player = usePlayer(socket);
+  const [previousPlayer, setPreviousPlayer] = useState({});
+  const [isStarted, setIsStarted] = useState(false);
 
-  componentWillUnmount() {
-    const { socket } = this.state;
-    socket.off('player:saved', this.updatedListener);
-    socket.off('player:scanned', this.scannedListener);
-  }
-
-  render() {
-    const { player, socket, isStarted } = this.state;
-    let view;
-    if (!isStarted) {
-      view = (
-        <Dashboard player={player} socket={socket} />
-      );
-    } else {
-      view = (
-        <Engine player={player} socket={socket} />
-      );
+  useEffect(() => {
+    if (player.userid === previousPlayer.userid) {
+      setIsStarted(true);
     }
-    return (
-      <div className="index">
-        <Header player={player} />
-        {view}
-      </div>
-    );
+    setPreviousPlayer(player);
+  }, [player]);
+
+  let view;
+
+  if (!isStarted) {
+    view = (<Dashboard player={player} socket={socket} />);
+  } else {
+    view = (<Engine player={player} socket={socket} />);
   }
+
+  return (
+    <div className="index">
+      <Header player={player} />
+      {view}
+    </div>
+  );
 }
 
 ReactDOM.render(
