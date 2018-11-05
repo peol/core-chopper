@@ -15,12 +15,17 @@ import './engine.css';
 let id = 0;
 
 class Engine extends React.Component {
-  constructor({ socket }) {
+  constructor({ player, socket }) {
     super();
     this.eventListener = this.bounceChopper.bind(this);
-    socket.on('ant:power', this.eventListener);
-    this.state = { socket, canvasId: `game${id += 1}` };
-    this.lastRevCount = 0;
+    socket.on('game:tick', this.eventListener);
+    this.gameListener = this.gameIdUpdated.bind(this);
+    socket.on('game:created', this.gameListener);
+    this.state = { player, socket, canvasId: `game${id += 1}` };
+  }
+
+  gameIdUpdated({ gameid }) {
+    this.setState({ gameid });
   }
 
   bounceChopper({ Power }) {
@@ -51,8 +56,25 @@ class Engine extends React.Component {
       const countDown = new CountDown(engine, chopper);
       const hud = new HUD(engine, chopper);
       const gameOver = new GameOver(engine, chopper);
-      countDown.go = () => socket.send({ type: 'game:started', data: {} });
-      gameOver.go = () => socket.send({ type: 'game:ended', data: { score: hud.maxScore } });
+      countDown.go = () => {
+        const { player } = this.state;
+        socket.send({
+          type: 'game:create',
+          data: {
+            userid: player.userid,
+          },
+        });
+      };
+      gameOver.go = () => {
+        const { gameid } = this.state;
+        socket.send({
+          type: 'game:end',
+          data: {
+            gameid,
+            score: hud.maxScore,
+          },
+        });
+      };
       this.chopper = chopper;
       engine.add(chopper);
       engine.add(countDown);

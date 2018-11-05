@@ -3,28 +3,28 @@ import React from 'react';
 import './scan.css';
 
 export default class Scan extends React.Component {
-  constructor({ user, socket }) {
+  constructor({ player, socket }) {
     super();
-    this.state = { user, socket };
+    this.state = { player, socket };
   }
 
-  componentWillReceiveProps({ user }) {
-    this.setState({ user });
+  componentWillReceiveProps({ player }) {
+    this.setState({ player });
   }
 
   manualInput(evt) {
-    const { user, socket } = this.state;
-    user.name = evt.target.value.trim();
-    if (user.userid && user.name !== '' && evt.key === 'Enter') {
+    const { player, socket } = this.state;
+    player.name = evt.target.value.trim();
+    if (player.userid && player.name !== '' && evt.key === 'Enter') {
       // save it:
-      socket.send({ type: 'user:save', data: user });
+      socket.send({ type: 'player:save', data: player });
     }
   }
 
   testUser() {
     const { socket } = this.state;
     socket.send({
-      type: 'user:save',
+      type: 'player:save',
       data: {
         userid: 'test',
         name: 'Test U',
@@ -34,27 +34,27 @@ export default class Scan extends React.Component {
   }
 
   testUserScanned() {
-    const { socket, user } = this.state;
+    const { socket, player } = this.state;
     socket.receive(JSON.stringify({
-      type: 'user:scanned',
-      data: user,
+      type: 'player:scanned',
+      data: player,
     }));
   }
 
   render() {
-    const { user } = this.state;
+    const { player } = this.state;
 
     let view;
 
-    if (!user || !user.userid) {
+    if (!player || !player.userid) {
       view = (
         <h2 onClick={() => this.testUser()}>Scan ID badge to sign in!</h2>
       );
-    } else if (user.userid && !user.name) {
+    } else if (player.userid && !player.name) {
       view = (
         <div className="name">
           <p>
-Looks like this is your first time riding the chopper!
+Looks like this is your first time flying the chopper!
 Please fill in your name:
           </p>
           <input autoFocus onKeyUp={evt => this.manualInput(evt)} />
@@ -65,7 +65,7 @@ Please fill in your name:
         <h2 onClick={() => this.testUserScanned()}>
 Welcome,
           {' '}
-          <strong>{user.name}</strong>
+          <strong>{player.name}</strong>
 ! Scan your ID badge again to play!
         </h2>
       );

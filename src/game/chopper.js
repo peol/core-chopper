@@ -6,7 +6,7 @@ import Resources from './resources';
 export default ex.Actor.extend({
   constructor(engine) {
     const centerX = engine.drawWidth / 2;
-    const centerY = engine.drawHeight / 2;
+    // const centerY = engine.drawHeight / 2;
     ex.Actor.apply(this, [
       centerX,
       -150, // -centerY * Settings.scale.y,
@@ -65,7 +65,7 @@ export default ex.Actor.extend({
     const powerModifier = this.y / 50;
     this.powerModifier = powerModifier;
     if (!this.animatingUpwards) {
-      this.unclampedVelocity = this.vel.y + (Settings.ACCELERATION / 100 );
+      this.unclampedVelocity = this.vel.y + (Settings.ACCELERATION / 100);
       this.vel.y = ex.Util.clamp(
         this.unclampedVelocity,
         -Settings.MAX_VELOCITY,

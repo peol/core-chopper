@@ -6,7 +6,7 @@ const genericProps = {
   qInfo: {
     qType: 'stats',
   },
-  nbrOfUsers: { qStringExpression: 'COUNT(DISTINCT userid)' },
+  nbrOfPlayers: { qStringExpression: 'COUNT(DISTINCT userid)' },
   nbrOfFlights: { qStringExpression: 'COUNT(DISTINCT gameid)' },
   avgSpeed: { qStringExpression: 'AVG(speed)' },
   avgCadence: { qStringExpression: 'AVG(cadence)' },
@@ -29,7 +29,7 @@ export default class Stats extends EnigmaModel {
         <p>
 A total of
           {' '}
-          <strong>{layout.nbrOfUsers}</strong>
+          <strong>{layout.nbrOfPlayers}</strong>
           {' '}
 players has flown
           {' '}

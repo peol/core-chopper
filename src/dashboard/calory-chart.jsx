@@ -164,13 +164,13 @@ const settings = {
 };
 
 export default class CaloryChart extends EnigmaModel {
-  constructor({ user }) {
+  constructor({ player }) {
     super({ genericProps });
-    this.state = { user };
+    this.state = { player };
   }
 
-  componentWillReceiveProps({ user }) {
-    this.setState({ user });
+  componentWillReceiveProps({ player }) {
+    this.setState({ player });
   }
 
   async renderPicasso() {
@@ -185,11 +185,11 @@ export default class CaloryChart extends EnigmaModel {
     }];
 
     this.resetChart = () => {
-      const { user } = this.state;
+      const { player } = this.state;
       const brush = this.pic.brush('highlight');
       brush.clear();
-      if (user.userid) {
-        brush.addValue('qHyperCube/qDimensionInfo/0', user.userid);
+      if (player.userid) {
+        brush.addValue('qHyperCube/qDimensionInfo/0', player.userid);
       } else {
         brush.end();
       }

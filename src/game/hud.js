@@ -39,7 +39,9 @@ export default ex.UIActor.extend({
     let modifiedPower = 0;
     if (this.chopper.vel.y < 0) {
       power = Math.round((-this.chopper.vel.y / Settings.MAX_VELOCITY) * 100);
-      modifiedPower = Math.round((-this.chopper.unclampedVelocity / Settings.MAX_VELOCITY) * 100) - 100;
+      modifiedPower = Math.round(
+        (-this.chopper.unclampedVelocity / Settings.MAX_VELOCITY) * 100,
+      ) - 100;
       if (modifiedPower > 0) {
         modifiedPower = `+${modifiedPower}`;
       }

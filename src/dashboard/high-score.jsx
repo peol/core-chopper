@@ -53,17 +53,17 @@ const genericPropsDistinct = {
 };
 
 export default class HighScore extends EnigmaModel {
-  constructor({ user, distinct }) {
+  constructor({ player, distinct }) {
     super({ genericProps: distinct ? genericPropsDistinct : genericProps });
-    this.state = { user, distinct };
+    this.state = { player, distinct };
   }
 
-  componentWillReceiveProps({ user }) {
-    this.setState({ user });
+  componentWillReceiveProps({ player }) {
+    this.setState({ player });
   }
 
   render() {
-    const { user, layout, distinct } = this.state;
+    const { player, layout, distinct } = this.state;
     if (!layout) {
       return (<div className="card"><p>Loading...</p></div>);
     }
@@ -74,7 +74,7 @@ export default class HighScore extends EnigmaModel {
     }
     const rows = matrix
       .map((r, i) => {
-        const classes = [r[0].qText === user.userid ? 'me' : ''];
+        const classes = [r[0].qText === player.userid ? 'me' : ''];
         return (
           <tr key={r[0].qText + r[2].qNum + distinct} className={classes}>
             <td>{i + 1}</td>

@@ -10,7 +10,6 @@ picasso.use(picassoQ);
 
 const ROUND_TO_SECONDS = 5;
 const TEXT_COLOR = '#333';
-const SECONDARY_COLOR = '#111';
 
 const genericProps = {
   qInfo: {
@@ -54,14 +53,6 @@ function duration(secs) {
 
   val = val.filter(i => i[0] > 0 || i[1].substring(0) === 's').map(v => v.join(''));
   return val.join('');
-}
-
-function debounce(fn) {
-  let timer;
-  return function debouncefn(...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), 10);
-  };
 }
 
 picasso.formatter('secs', () => v => duration(v * ROUND_TO_SECONDS));
@@ -202,13 +193,13 @@ const settings = {
 };
 
 export default class PowerChart extends EnigmaModel {
-  constructor({ user }) {
+  constructor({ player }) {
     super({ genericProps });
-    this.state = { user };
+    this.state = { player };
   }
 
-  componentWillReceiveProps({ user }) {
-    this.setState({ user });
+  componentWillReceiveProps({ player }) {
+    this.setState({ player });
   }
 
   async renderPicasso() {
@@ -237,11 +228,11 @@ export default class PowerChart extends EnigmaModel {
     }];
 
     this.resetChart = () => {
-      const { user } = this.state;
+      const { player } = this.state;
       const brush = this.pic.brush('highlight');
       brush.clear();
-      if (user.userid) {
-        brush.addValue('qHyperCube/qDimensionInfo/1', user.userid);
+      if (player.userid) {
+        brush.addValue('qHyperCube/qDimensionInfo/1', player.userid);
       } else {
         brush.end();
       }

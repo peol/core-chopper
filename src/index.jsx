@@ -19,41 +19,41 @@ class Index extends React.Component {
   constructor() {
     super();
     const socket = new Socket();
-    this.updatedListener = user => this.setState({ user });
-    this.scannedListener = (scannedUser) => {
-      const { user } = this.state;
-      if (scannedUser.userid === user.userid) {
+    this.updatedListener = player => this.setState({ player });
+    this.scannedListener = (scannedPlayer) => {
+      const { player } = this.state;
+      if (player.userid === scannedPlayer.userid) {
         this.setState({ isStarted: true });
       } else {
-        this.setState({ user: scannedUser });
+        this.setState({ player: scannedPlayer });
       }
     };
-    socket.on('user:updated', this.updatedListener);
-    socket.on('user:scanned', this.scannedListener);
-    this.state = { user: {}, socket };
+    socket.on('player:saved', this.updatedListener);
+    socket.on('player:scanned', this.scannedListener);
+    this.state = { player: {}, socket };
   }
 
   componentWillUnmount() {
     const { socket } = this.state;
-    socket.off('user:updated', this.updatedListener);
-    socket.off('user:scanned', this.scannedListener);
+    socket.off('player:saved', this.updatedListener);
+    socket.off('player:scanned', this.scannedListener);
   }
 
   render() {
-    const { user, socket, isStarted } = this.state;
+    const { player, socket, isStarted } = this.state;
     let view;
     if (!isStarted) {
       view = (
-        <Dashboard user={user} socket={socket} />
+        <Dashboard player={player} socket={socket} />
       );
     } else {
       view = (
-        <Engine user={user} socket={socket} />
+        <Engine player={player} socket={socket} />
       );
     }
     return (
       <div className="index">
-        <Header user={user} />
+        <Header player={player} />
         {view}
       </div>
     );

@@ -8,24 +8,24 @@ import CaloryChart from './calory-chart';
 import './layout.css';
 
 export default class Dashboard extends React.Component {
-  constructor({ user, socket }) {
+  constructor({ player, socket }) {
     super();
-    this.state = { user, socket };
+    this.state = { player, socket };
   }
 
-  componentWillReceiveProps({ user }) {
-    this.setState({ user });
+  componentWillReceiveProps({ player }) {
+    this.setState({ player });
   }
 
   render() {
-    const { user, socket } = this.state;
+    const { player, socket } = this.state;
     return (
       <div className="dashboard">
-        <HighScore user={user} />
-        <Scan user={user} socket={socket} />
-        <HighScore user={user} distinct />
-        <CaloryChart user={user} />
-        <PowerChart user={user} />
+        <HighScore player={player} />
+        <Scan player={player} socket={socket} />
+        <HighScore player={player} distinct />
+        <CaloryChart player={player} />
+        <PowerChart player={player} />
       </div>
     );
   }
