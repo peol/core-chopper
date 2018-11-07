@@ -2,7 +2,14 @@ export default class Socket {
   constructor() {
     this.listeners = {};
     this.socket = new WebSocket('ws://localhost:8080');
+    this.socket.onopen = () => this.emptyQueue();
     this.socket.onmessage = evt => this.receive(evt.data);
+    this.queue = [];
+  }
+
+  emptyQueue() {
+    this.queue.forEach(data => this.send(data));
+    this.queue = [];
   }
 
   receive(json) {
@@ -16,6 +23,10 @@ export default class Socket {
   }
 
   send(data) {
+    if (this.socket.readyState !== 1) {
+      this.queue.push(data);
+      return;
+    }
     const json = JSON.stringify(data);
     this.socket.send(json);
   }

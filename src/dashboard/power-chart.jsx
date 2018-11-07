@@ -11,7 +11,7 @@ import './power-chart.css';
 
 picasso.use(picassoQ);
 
-const ROUND_TO_SECONDS = 5;
+const ROUND_TO_SECONDS = 10;
 const TEXT_COLOR = '#333';
 
 const genericProps = {
@@ -20,7 +20,7 @@ const genericProps = {
   },
   qHyperCubeDef: {
     qDimensions: [
-      { qDef: { qFieldDefs: [`=ROUND([duration]/1000/${ROUND_TO_SECONDS})`] } },
+      { qDef: { qFieldDefs: [`=ROUND([duration]/1000/${ROUND_TO_SECONDS}, 0.1)`] } },
       { qDef: { qFieldDefs: ['=[name]&\'::\'&[gameid]&\'::\'&[userid]'] } },
     ],
     qMeasures: [
@@ -68,13 +68,13 @@ const settings = {
       },
       type: 'linear',
       invert: false,
-      _padding: 0.2,
+      padding: 0.2,
     },
     y: {
       data: {
         fields: ['qMeasureInfo/0'],
       },
-      _expand: 0.05,
+      expand: 0.05,
       invert: true,
     },
     color: {

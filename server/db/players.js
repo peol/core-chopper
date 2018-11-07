@@ -10,19 +10,19 @@ function getAll() {
   return players.value();
 }
 
-function create({ cardid }) {
+function create({
+  cardid = '', name = '', email = '', contact = false,
+}) {
   const player = {
-    userid: generateId(),
-    cardid,
-    name: '',
+    userid: generateId(), cardid, name, email, contact,
   };
   players.push(player).write();
-  return get(player.userid);
+  return get({ userid: player.userid });
 }
 
 function update(player) {
   players.find({ userid: player.userid }).assign(player).write();
-  return get(player.userid);
+  return get({ userid: player.userid });
 }
 
 function remove(userid) {

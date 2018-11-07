@@ -55,7 +55,6 @@ const settings = {
         },
       },
       label: v => v.datum.name.value,
-      padding: 0.2,
     },
     y: {
       data: {
@@ -93,8 +92,9 @@ const settings = {
         fontFamily: 'VT323',
         fill: TEXT_COLOR,
         fontSize: '18px',
-        mode: 'tilted',
+        _mode: 'tilted',
         tiltAngle: 35,
+        margin: 10,
       },
     },
   }, {
@@ -118,6 +118,7 @@ const settings = {
       major: { scale: 'x' },
       minor: { scale: 'y' },
       box: {
+        maxWidthPx: 100,
         fill: { scale: 'c' },
       },
     },

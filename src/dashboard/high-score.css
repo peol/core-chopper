@@ -1,3 +1,7 @@
+.high-score {
+  grid-row-start: 1;
+}
+
 .high-score table {
   border-collapse: collapse;
 }

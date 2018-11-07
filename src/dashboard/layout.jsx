@@ -1,7 +1,8 @@
 import React from 'react';
 
 import HighScore from './high-score';
-import Scan from './scan';
+import Stats from './stats';
+import Player from './player';
 import PowerChart from './power-chart';
 import CaloryChart from './calory-chart';
 
@@ -11,7 +12,8 @@ export default function ({ player, socket }) {
   return (
     <div className="dashboard">
       <HighScore player={player} />
-      <Scan player={player} socket={socket} />
+      <Stats />
+      <Player player={player} socket={socket} />
       <HighScore player={player} distinct />
       <CaloryChart player={player} />
       <PowerChart player={player} />

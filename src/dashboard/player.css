@@ -1,0 +1,54 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+}
+
+.player h2 {
+  cursor: pointer;
+  text-align: center;
+}
+
+.player .details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.player .details li {
+  margin: 0 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.player .details label {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+.player .details .react-toggle {
+  align-self: baseline;
+}
+
+.player .details .select,
+.player .details input {
+  line-height: 40px;
+  display: block;
+  width: 100%;
+}
+
+.player .details .select input {
+  box-shadow: none;
+}
+
+.player .details .button {
+  background: white;
+  padding: 0.1rem 1rem;
+  cursor: pointer;
+  align-self: flex-end;
+}

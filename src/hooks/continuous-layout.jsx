@@ -17,13 +17,17 @@ export default function useContinuousLayout(model, layout) {
     [model, layout]),
   );
   if (!model || !layout) return null;
-  if (contDataError) console.warn('Continuous layout failed to fetch:', contDataError);
+  if (contDataError) {
+    console.warn('Continuous layout failed to fetch:', contDataError);
+    return layout;
+  }
   if (contData) {
     Object.assign(layout.qHyperCube.qDataPages, contData.qDataPages);
     Object.assign(layout.qHyperCube.qDataPages[0].qArea, {
       qWidth: 3,
       qHeight: 1200000,
     });
+    return layout;
   }
-  return layout;
+  return null;
 }

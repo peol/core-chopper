@@ -14,7 +14,7 @@ import './engine.css';
 
 export default function ({ player, socket }) {
   const gameid = useRef(null);
-  const [storedChopper, setChopper] = useState(null);
+  const chopperRef = useRef(null);
   const [canvasId] = useState(`canvas${Date.now()}`);
 
   useEffect(() => {
@@ -24,8 +24,10 @@ export default function ({ player, socket }) {
   }, []);
 
   useEffect(() => {
-    const ticked = (data) => {
-      if (storedChopper) storedChopper.bounce(data.Power);
+    const ticked = ({ power }) => {
+      const chopper = chopperRef.current;
+      if (!chopper) return;
+      chopper.bounce(power);
     };
     socket.on('game:tick', ticked);
     return () => socket.off('game:tick', ticked);
@@ -66,7 +68,7 @@ export default function ({ player, socket }) {
           },
         });
       };
-      setChopper(chopper);
+      chopperRef.current = chopper;
       engine.add(chopper);
       engine.add(countDown);
       engine.add(gameOver);

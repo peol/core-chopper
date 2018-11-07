@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 export default function usePlayer(socket) {
-  const [player, setPlayer] = useState({ userid: null, cardid: null, name: '' });
+  const [player, setPlayer] = useState({
+    userid: '', cardid: '', name: '', email: '', contact: false,
+  });
 
   useEffect(() => {
     const update = newPlayer => setPlayer(newPlayer);

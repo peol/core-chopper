@@ -2,7 +2,6 @@ import React from 'react';
 
 import useModel from '../hooks/model';
 import useLayout from '../hooks/layout';
-import Stats from './stats';
 
 import './high-score.css';
 
@@ -110,7 +109,6 @@ yet!
     <div className="card high-score">
       <h2>{title}</h2>
       {view}
-      {distinct ? '' : <Stats />}
     </div>
   );
 }

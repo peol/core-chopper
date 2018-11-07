@@ -8,22 +8,22 @@ const ant = require('./sensors/ant');
 
 const activeGames = [];
 
-nfc.on('scan', async ({ id }) => {
-  let user = players.get({ cardid: id });
+nfc.on('scan', async ({ uid }) => {
+  let user = players.get({ cardid: uid });
   if (!user) {
-    user = players.create({ cardid: id });
+    user = players.create({ cardid: uid });
   }
   ws.send('player:scanned', user);
 });
 
 ant.on('tick', ({ speed, cadence, power }) => {
-  activeGames.forEach(({ gameid, starttime }) => {
+  activeGames.forEach(({ game: { gameid, starttime } }) => {
     entries.create({
       gameid,
       speed,
       cadence,
       power,
-      duration: +Date.now() - starttime,
+      duration: Date.now() - starttime,
     });
   });
   ws.send('game:tick', { speed, cadence, power });
@@ -37,6 +37,10 @@ ws.on('player:save', ({ data, respond }) => {
     player = players.update(data);
   }
   respond('player:saved', player);
+});
+
+ws.on('player:list', ({ respond }) => {
+  respond('player:listed', players.getAll());
 });
 
 ws.on('game:create', ({ data, respond, socket }) => {

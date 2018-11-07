@@ -3,6 +3,8 @@ import React from 'react';
 import useModel from '../hooks/model';
 import useLayout from '../hooks/layout';
 
+import './stats.css';
+
 const genericProps = {
   qInfo: {
     qType: 'stats',
@@ -23,7 +25,8 @@ export default function () {
   const avgSpeed = +layout.avgSpeed || 0;
   const avgCadence = +layout.avgCadence || 0;
   return (
-    <div className="stats">
+    <div className="card stats">
+      <h2>Stats</h2>
       <p>
 A total of
         {' '}
