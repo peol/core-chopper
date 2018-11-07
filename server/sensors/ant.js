@@ -16,6 +16,7 @@ stick.on('startup', () => {
   speedSensor.attach(3, 0);
   cadenceSensor.attach(2, 0);
   powerSensor.attach(1, 0);
+  console.log('ant:attached');
 });
 
 speedSensor.on('speedData', (data) => { speed = data.CalculatedSpeed; });

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function (socket) {
+export default function usePlayer(socket) {
   const [player, setPlayer] = useState({ userid: null, cardid: null, name: '' });
 
   useEffect(() => {

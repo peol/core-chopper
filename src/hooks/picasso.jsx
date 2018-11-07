@@ -4,7 +4,7 @@ import picasso from 'picasso.js';
 
 picasso.use(picassoQ);
 
-export default function (element, settings, layout) {
+export default function usePicasso(element, settings, layout) {
   const [pic, setPicasso] = useState(null);
 
   // const field = await this.getField('name');

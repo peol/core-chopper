@@ -35,8 +35,10 @@ listener.on('connection', (socket) => {
 });
 
 module.exports = {
-  send: (type, data) => {
-    sockets.forEach(s => s.send(JSON.stringify({ type, data: { data } })));
+  send: (type, payload) => {
+    const msg = JSON.stringify({ type, data: payload });
+    console.log('websocket:send', msg);
+    sockets.forEach(s => s.send(msg));
   },
   on: (evt, fn) => { getListeners(evt).push(fn); },
 };

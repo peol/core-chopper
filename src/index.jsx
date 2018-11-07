@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import useSocket from './hooks/socket';
 import usePlayer from './hooks/player';
+import ErrorBoundary from './error-boundary';
 import Header from './header';
 import Dashboard from './dashboard/layout';
 import Engine from './game/engine';
@@ -46,7 +47,7 @@ function Index() {
 }
 
 ReactDOM.render(
-  <Index />,
+  <ErrorBoundary><Index /></ErrorBoundary>,
   document.getElementById('app'),
 );
 

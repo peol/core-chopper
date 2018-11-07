@@ -9,7 +9,11 @@ const ant = require('./sensors/ant');
 const activeGames = [];
 
 nfc.on('scan', async ({ id }) => {
-  ws.send('player:scanned', { id });
+  let user = players.get({ cardid: id });
+  if (!user) {
+    user = players.create({ cardid: id });
+  }
+  ws.send('player:scanned', user);
 });
 
 ant.on('tick', ({ speed, cadence, power }) => {

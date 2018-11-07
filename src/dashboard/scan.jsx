@@ -20,7 +20,6 @@ function playerScanned(socket, player) {
   }));
 }
 
-
 export default function ({ player, socket }) {
   const manualInput = (evt) => {
     const newPlayer = Object.assign({}, player);
@@ -35,7 +34,7 @@ export default function ({ player, socket }) {
 
   if (!player || !player.userid) {
     view = (
-      <h2 onClick={() => signInAsTestUser(socket)}>Scan ID badge to sign in!</h2>
+      <h2 onClick={() => signInAsTestUser(socket)}>Scan card or click here to sign in!</h2>
     );
   } else if (player.userid && !player.name) {
     view = (
@@ -53,7 +52,7 @@ Please fill in your name:
 Welcome,
         {' '}
         <strong>{player.name}</strong>
-! Scan your ID badge again to play!
+! Scan your card or click here again to play!
       </h2>
     );
   }
