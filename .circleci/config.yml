@@ -3,14 +3,16 @@ jobs:
   build:
     docker:
       - image: circleci/node:10-stretch-browsers-legacy
-    working_directory: ~/catwalk
+    working_directory: ~/core-chopper
     steps:
       - checkout
       - restore_cache:
           key: npm-dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install dependencies
-          command:
+          command: |
+            sudo apt-get update
+            sudo apt-get install libpcsclite1 libpcsclite-dev libudev-dev
             npm install --quiet
       - run:
           name: Lint
