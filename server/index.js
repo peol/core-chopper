@@ -30,7 +30,7 @@ ant.on('tick', ({ speed, cadence, power }) => {
 });
 
 ws.on('player:save', ({ data, respond }) => {
-  let player = players.get(data.userid);
+  let player = players.get({ userid: data.userid });
   if (!player) {
     player = players.create(data);
   } else {

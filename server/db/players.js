@@ -2,8 +2,8 @@ const { getDb, generateId } = require('./lowdb');
 
 const players = getDb('players', { players: [] });
 
-function get(userid) {
-  return players.find({ userid }).value();
+function get(query) {
+  return players.find(query).value();
 }
 
 function getAll() {
