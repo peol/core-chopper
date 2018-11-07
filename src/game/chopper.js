@@ -78,6 +78,8 @@ export default ex.Actor.extend({
     if (this.vel.y > 0) {
       this.setDrawing('down');
     }
+    this.upAnimation.speed = 300 - Math.abs(this.vel.y);
+    this.downAnimation.speed = 300 + Math.abs(this.vel.y);
   },
 
   bounce(power) {
@@ -90,6 +92,7 @@ export default ex.Actor.extend({
       return;
     }
     const adjustedSpeed = -power * 2;
+    this.lastPower = power;
     this.upAnimation.reset();
     this.setDrawing('up');
     this.unclampedVelocity = this.vel.y + (adjustedSpeed - this.powerModifier);

@@ -9,7 +9,7 @@ export default {
   ACCELERATION: 250,
   MAX_VELOCITY: 350,
   MAX_DOWNWARDS_VELOCITY: 2000,
-  LEVEL_SPEED: -200,
+  LEVEL_SPEED: -1200,
   scale: DEFAULT_SCALE,
   labelBase: {
     baseAlign: ex.BaseAlign.Top,
