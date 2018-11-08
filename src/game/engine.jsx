@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import * as ex from 'excalibur';
 
+import useModel from '../hooks/model';
+import useLayout from '../hooks/layout';
 import Chopper from './chopper';
 import Cloud from './cloud';
 import Floor from './floor';
@@ -12,7 +14,33 @@ import HUD from './hud';
 
 import './engine.css';
 
+const genericProps = {
+  qInfo: {
+    qType: 'highscore',
+  },
+  qHyperCubeDef: {
+    qDimensions: [
+      { qDef: { qFieldDefs: ['[userid]'] } },
+      { qDef: { qFieldDefs: ['[name]'] } },
+      {
+        qDef: {
+          qFieldDefs: ['[score]'],
+          qReverseSort: true,
+          qSortCriterias: [{ qSortByNumeric: true }],
+        },
+        qNullSuppression: true,
+      }],
+    qInitialDataFetch: [{
+      qWidth: 3,
+      qHeight: 1000,
+    }],
+    qSuppressMissing: true,
+    qInterColumnSortOrder: [2, 0],
+  },
+};
+
 export default function ({ player, socket }) {
+  const layout = useLayout(useModel(genericProps));
   const gameid = useRef(null);
   const chopperRef = useRef(null);
   const [canvasId] = useState(`canvas${Date.now()}`);
@@ -34,6 +62,7 @@ export default function ({ player, socket }) {
   }, []);
 
   useEffect(() => {
+    if (!layout) return;
     const loader = new ex.Loader();
     Object.keys(Resources).forEach(key => loader.addResource(Resources[key]));
     const engine = new ex.Engine({
@@ -49,7 +78,7 @@ export default function ({ player, socket }) {
       Object.assign(Settings.scale, { x: scale, y: scale });
       const chopper = new Chopper(engine);
       const countDown = new CountDown(engine, chopper);
-      const hud = new HUD(engine, chopper);
+      const hud = new HUD(engine, chopper, layout);
       const gameOver = new GameOver(engine, chopper);
       countDown.go = () => {
         socket.send({
@@ -84,7 +113,7 @@ export default function ({ player, socket }) {
       });
       engine.currentScene.camera.strategy.lockToActor(chopper);
     });
-  }, []);
+  }, [layout]);
 
   return <div className="engine"><canvas id={canvasId} /></div>;
 }
