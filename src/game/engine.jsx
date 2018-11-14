@@ -95,6 +95,7 @@ export default function ({ player, socket }) {
           data: {
             gameid: gameid.current,
             score: hud.maxScore,
+            bonus: chopper.kills,
           },
         });
       };
