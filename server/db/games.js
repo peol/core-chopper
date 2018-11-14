@@ -17,6 +17,7 @@ function create({ userid }) {
     starttime: Date.now(),
     endtime: '',
     score: 0,
+    bonus: 0,
   };
   games.push(game).write();
   return get(game.gameid);
@@ -31,11 +32,12 @@ function remove(gameid) {
   return games.remove({ gameid }).write();
 }
 
-function end({ gameid, score }) {
+function end({ gameid, score, bonus = 0 }) {
   const game = get(gameid);
   Object.assign(game, {
     endtime: Date.now(),
     score,
+    bonus,
   });
   return update(game);
 }

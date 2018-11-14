@@ -10,6 +10,8 @@ export default {
   MAX_VELOCITY: 350,
   MAX_DOWNWARDS_VELOCITY: 2000,
   LEVEL_SPEED: -1200,
+  OBEJCTS_OVER_CHOPPER: 10,
+  OBEJCTS_UNDER_CHOPPER: 10,
   scale: DEFAULT_SCALE,
   labelBase: {
     baseAlign: ex.BaseAlign.Top,

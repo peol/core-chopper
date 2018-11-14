@@ -15,8 +15,8 @@ const server = http.createServer((req, res) => {
       res.end(out);
     } else if (req.url === '/csv/games') {
       const allGames = games.getAll();
-      let out = 'userid,gameid,starttime,endtime,score\n';
-      out += allGames.map(p => `${p.userid},${p.gameid},${p.starttime},${p.endtime},${p.score}\n`).join('');
+      let out = 'userid,gameid,starttime,endtime,score, bonus\n';
+      out += allGames.map(p => `${p.userid},${p.gameid},${p.starttime},${p.endtime},${p.score},${p.bonus}\n`).join('');
       res.end(out);
     } else if (req.url === '/csv/entries') {
       const allEntries = entries.getAll();

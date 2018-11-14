@@ -12,6 +12,7 @@ export default ex.UIActor.extend({
     this.chopper = chopper;
     this.maxScore = 0;
     this.powerLabel = createLabel({ pos: new ex.Vector(20, 20) });
+    this.crashedObjects = createLabel({ pos: new ex.Vector(20, 60) });
     this.warningLabel = createLabel({
       fontSize: 78,
       textAlign: ex.TextAlign.Center,
@@ -29,6 +30,7 @@ export default ex.UIActor.extend({
       pos: new ex.Vector(20, engine.drawHeight - 64),
     });
     this.add(this.powerLabel);
+    this.add(this.crashedObjects);
     this.add(this.warningLabel);
     this.add(this.warningTextLabel);
     this.add(this.progressLabel);
@@ -45,6 +47,7 @@ export default ex.UIActor.extend({
       }
     }
     this.powerLabel.text = `Velocity: ${power}% (${modifiedPower}%)`;
+    this.crashedObjects.text = `Bonus points: ${this.chopper.kills}`;
   },
 
   updateProgress() {

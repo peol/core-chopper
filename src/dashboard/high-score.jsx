@@ -13,6 +13,7 @@ const genericProps = {
     qDimensions: [
       { qDef: { qFieldDefs: ['[userid]'] } },
       { qDef: { qFieldDefs: ['[name]'] } },
+      { qDef: { qFieldDefs: ['[bonus]'] } },
       {
         qDef: {
           qFieldDefs: ['[score]'],
@@ -22,11 +23,11 @@ const genericProps = {
         qNullSuppression: true,
       }],
     qInitialDataFetch: [{
-      qWidth: 3,
+      qWidth: 4,
       qHeight: 10,
     }],
     qSuppressMissing: true,
-    qInterColumnSortOrder: [2, 0],
+    qInterColumnSortOrder: [3, 0],
   },
 };
 
@@ -38,6 +39,7 @@ const genericPropsDistinct = {
     qDimensions: [
       { qDef: { qFieldDefs: ['[userid]'] } },
       { qDef: { qFieldDefs: ['[name]'] } },
+      { qDef: { qFieldDefs: ['[bonus]'] } },
     ],
     qMeasures: [{
       qDef: {
@@ -47,11 +49,11 @@ const genericPropsDistinct = {
       qSortBy: { qSortByNumeric: 1 },
     }],
     qInitialDataFetch: [{
-      qWidth: 3,
+      qWidth: 4,
       qHeight: 15,
     }],
     qSuppressZero: true,
-    qInterColumnSortOrder: [2, 0],
+    qInterColumnSortOrder: [3, 0],
   },
 };
 
@@ -86,6 +88,7 @@ yet!
             <td>{i + 1}</td>
             <td>{r[1].qText}</td>
             <td>{r[2].qText}</td>
+            <td>{r[3].qText}</td>
           </tr>
         );
       });
@@ -95,6 +98,7 @@ yet!
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Bonus</th>
             <th>Score</th>
           </tr>
         </thead>
