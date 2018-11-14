@@ -32,7 +32,7 @@ function remove(gameid) {
   return games.remove({ gameid }).write();
 }
 
-function end({ gameid, score, bonus = 0 }) {
+function end({ gameid, score, bonus }) {
   const game = get(gameid);
   Object.assign(game, {
     endtime: Date.now(),

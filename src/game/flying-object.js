@@ -19,13 +19,12 @@ const ufo = {
 };
 
 const sprites = [qlikLogo, birdLogo, bird2Logo, ufo];
-let spst;
 
 export default ex.Actor.extend({
   constructor(engine) {
     const fly = this.randomPositionAndDirection(engine);
     const object = this.randomIntFromInterval(0, sprites.length - 1);
-    spst = sprites[object];
+    const spst = sprites[object];
     ex.Actor.apply(this, [fly.x, fly.y, spst.w * Settings.scale.x, spst.h * Settings.scale.y]);
 
     this.scale = new ex.Vector(Settings.scale.x, Settings.scale.y);
@@ -79,8 +78,6 @@ export default ex.Actor.extend({
   randomizeScale() {
     const rand = Math.random();
     this.scale.setTo(Settings.scale.x * rand, Settings.scale.y * rand);
-    this.setWidth(spst.w * Settings.scale.x * rand);
-    this.setHeight(spst.h * Settings.scale.x * rand);
   },
 
   update(engine, delta) {
@@ -88,7 +85,7 @@ export default ex.Actor.extend({
     if (this.x < 0 || this.x > engine.drawWidth) {
       const fly = this.randomPositionAndDirection(engine);
       this.vel.x = ex.Util.randomInRange(100, 400) * fly.dir;
-      this.randomizeScale();
+      this.randomizeScale(this.width, this.height);
       this.setDrawing(fly.dDir);
       this.y = fly.y;
     }
