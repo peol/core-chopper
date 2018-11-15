@@ -11,8 +11,8 @@ export default ex.Actor.extend({
     ex.Actor.apply(this, [
       centerX,
       -150, // -centerY * Settings.scale.y,
-      96 * Settings.scale.x,
-      32 * Settings.scale.y,
+      Settings.CHOPPER_WIDTH * Settings.scale.x + 200,
+      Settings.CHOPPER_HEIGHT * Settings.scale.y,
       ex.Color.Red,
     ]);
     this.vel = new ex.Vector(0, 0);
@@ -39,14 +39,8 @@ export default ex.Actor.extend({
 
     this.on('collisionstart', (event) => {
       if (event.other) {
-        const crashedObject = event.other;
-        crashedObject.setDrawing('boom');
-        crashedObject.scale.setTo(Settings.scale.x, Settings.scale.y);
         this.kills += 1;
-        setTimeout(() => {
-          crashedObject.x = -200;
-          crashedObject.setDrawing('left');
-        }, 1600);
+        event.other.crash();
       }
     });
 

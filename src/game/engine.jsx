@@ -100,7 +100,7 @@ export default function ({ player, socket }) {
         });
       };
       chopperRef.current = chopper;
-      for (let i = 0; i < Settings.OBEJCTS_OVER_CHOPPER; i += 1) {
+      for (let i = 0; i < Settings.OBJECTS_OVER_CHOPPER; i += 1) {
         engine.add(new FlyingObject(engine, chopper));
       }
       engine.add(chopper);
@@ -113,7 +113,7 @@ export default function ({ player, socket }) {
         engine.add(new Floor(i, 0));
       }
 
-      for (let i = 0; i < Settings.OBEJCTS_UNDER_CHOPPER; i += 1) {
+      for (let i = 0; i < Settings.OBJECTS_UNDER_CHOPPER; i += 1) {
         engine.add(new FlyingObject(engine, chopper));
       }
       engine.add(hud);
