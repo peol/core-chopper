@@ -40,7 +40,7 @@ function Index() {
 
   return (
     <div className="index">
-      <Header player={player} />
+      <Header player={player} socket={socket} />
       {view}
     </div>
   );

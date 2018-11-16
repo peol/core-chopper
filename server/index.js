@@ -17,6 +17,7 @@ nfc.on('scan', async ({ uid }) => {
 });
 
 ant.on('tick', ({ speed, cadence, power }) => {
+  console.log('ant:tick', power);
   activeGames.forEach(({ game: { gameid, starttime } }) => {
     entries.create({
       gameid,
@@ -31,16 +32,20 @@ ant.on('tick', ({ speed, cadence, power }) => {
 
 ws.on('player:save', ({ data, respond }) => {
   let player = players.get({ userid: data.userid });
-  if (!player) {
-    player = players.create(data);
-  } else {
-    player = players.update(data);
-  }
+  if (!player) player = players.create(data);
+  else player = players.update(data);
   respond('player:saved', player);
 });
 
 ws.on('player:list', ({ respond }) => {
   respond('player:listed', players.getAll());
+});
+
+ws.on('game:simulate', ({ data }) => {
+  ant.simulate({
+    ...data,
+    onTick: pwr => ant.emit('tick', { speed: 0, cadence: 50, power: pwr }),
+  });
 });
 
 ws.on('game:create', ({ data, respond, socket }) => {

@@ -1,5 +1,7 @@
 const Ant = require('aai-ant-plus');
 
+const simulate = require('./ant-simulation');
+
 const stick = new Ant.GarminStick3();
 const speedSensor = new Ant.SpeedSensor(stick);
 const cadenceSensor = new Ant.CadenceSensor(stick);
@@ -35,5 +37,7 @@ if (!stick.open()) {
 }
 
 module.exports = {
+  simulate,
   on: (evt, fn) => { listeners.push(fn); },
+  emit: (evt, data) => { listeners.forEach(l => l(data)); },
 };

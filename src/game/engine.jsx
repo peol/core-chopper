@@ -70,6 +70,7 @@ export default function ({ player, socket }) {
       displayMode: ex.DisplayMode.Container,
       canvasElementId: canvasId,
       suppressConsoleBootMessage: true,
+      suppressPlayButton: true,
       // isDebug: true,
       backgroundColor: ex.Color.Transparent,
     });
