@@ -3,18 +3,23 @@ const games = require('./db/games');
 const entries = require('./db/entries');
 const ws = require('./ws');
 const http = require('./http');
-const nfc = require('./sensors/nfc');
 const ant = require('./sensors/ant');
 
 const activeGames = [];
 
-nfc.on('scan', async ({ uid }) => {
-  let user = players.get({ cardid: uid });
-  if (!user) {
-    user = players.create({ cardid: uid });
-  }
-  ws.send('player:scanned', user);
-});
+if (process.argv[2] === '--no-nfc') {
+  console.log('reader:skipped');
+} else {
+  const nfc = require('./sensors/nfc'); // eslint-disable-line global-require
+
+  nfc.on('scan', async ({ uid }) => {
+    let user = players.get({ cardid: uid });
+    if (!user) {
+      user = players.create({ cardid: uid });
+    }
+    ws.send('player:scanned', user);
+  });
+}
 
 ant.on('tick', ({ speed, cadence, power }) => {
   console.log('ant:tick', power);
