@@ -34,7 +34,7 @@ Open http://localhost:1234.
 
 ## Troubleshooting
 
-* If the server hangs after the printout `reader:starting` it is most likely related to missing NFC drivers. You can skip using NFC by passing a `--no-nfc` flag when starting the server.
+* If the server hangs after the printout `reader:starting` it is most likely related to missing NFC drivers. You can skip using NFC by passing a `--disable-nfc` flag when starting the server.
 
 ## TODO
 

@@ -7,7 +7,7 @@ const ant = require('./sensors/ant');
 
 const activeGames = [];
 
-if (process.argv[2] === '--no-nfc') {
+if (process.argv.indexOf('--disable-nfc') > -1) {
   console.log('reader:skipped');
 } else {
   const nfc = require('./sensors/nfc'); // eslint-disable-line global-require
