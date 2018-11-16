@@ -3,6 +3,7 @@ import * as ex from 'excalibur';
 import chopper from '../resources/sprites/chopper.png';
 import bss2 from '../resources/sprites/brickspritesheet.png';
 import cloud from '../resources/sprites/cloud.png';
+import star from '../resources/sprites/star.png';
 import qlik from '../resources/sprites/qlik-small.png';
 import bird from '../resources/sprites/qlik-bird.png';
 import bird2 from '../resources/sprites/qlik-bird2.png';
@@ -14,6 +15,7 @@ export default {
   Chopper: new ex.Texture(chopper),
   BrickSpriteSheet: new ex.Texture(bss2),
   Cloud: new ex.Texture(cloud),
+  Star: new ex.Texture(star),
   Qlik: new ex.Texture(qlik),
   Bird: new ex.Texture(bird),
   Bird2: new ex.Texture(bird2),

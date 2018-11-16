@@ -14,6 +14,7 @@ export default {
   LEVEL_SPEED: -1200,
   OBJECTS_OVER_CHOPPER: 10,
   OBJECTS_UNDER_CHOPPER: 10,
+  SPACE_LEVEL: -15000,
   scale: DEFAULT_SCALE,
   labelBase: {
     baseAlign: ex.BaseAlign.Top,

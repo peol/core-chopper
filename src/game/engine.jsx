@@ -106,9 +106,9 @@ export default function ({ player, socket }) {
       engine.add(chopper);
       engine.add(countDown);
       engine.add(gameOver);
-      engine.add(new Cloud(800, 0));
-      engine.add(new Cloud(400, 300 * Settings.scale.y));
-      engine.add(new Cloud(700, 700 * Settings.scale.y));
+      engine.add(new Cloud(800, 500 * Settings.scale.y, chopper));
+      engine.add(new Cloud(400, 300 * Settings.scale.y, chopper));
+      engine.add(new Cloud(700, 700 * Settings.scale.y, chopper));
       for (let i = 0; i < engine.drawWidth; i += 61 * Settings.scale.y) {
         engine.add(new Floor(i, 0));
       }
