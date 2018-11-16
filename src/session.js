@@ -2,10 +2,7 @@ const enigma = require('enigma.js');
 const schema = require('enigma.js/schemas/12.20.0.json');
 
 const url = `ws://localhost:9076/app/${+new Date()}`;
-// TODO: make this work for Linux as well:
-// const isMac = process.execPath[0] === '/';
-// const dockerHost = `docker.for.${isMac ? 'mac' : 'win'}.localhost`;
-const dockerHost = 'docker.for.mac.localhost';
+const dockerHost = 'host.docker.internal';
 let currentDoc = null;
 const objectCache = {};
 
