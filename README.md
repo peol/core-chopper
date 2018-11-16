@@ -36,15 +36,12 @@ Open http://localhost:1234.
 
 ### Features
 
-* Add "Next position: 1230 (9th place, user)" in UI
 * Add graphics for e.g. "velocity text" [*********--]
 * Implement multiple modes
-* Add things during ascent to provide surprise moments (like the monster in Ski Free from Win 3.11)
 * Do not drop all the way to 0 height when dying, add warning when descending more than X, then kill at X * 1.5
 
 ### Fixes
 
-* Fix backend sync when using manual sign in (currently no events are saved I think)
 * Refactor game implementation
   * Fix physics/animations, make them less jaggy
   * Fix sprites for floor and clouds
