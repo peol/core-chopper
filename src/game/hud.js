@@ -55,7 +55,7 @@ export default ex.UIActor.extend({
     const current = Math.round(-this.chopper.y);
     this.maxScore = this.maxScore < current ? current : this.maxScore;
     const nextPos = hs.find(s => s[2].qNum > this.maxScore);
-    const position = nextPos ? hs.length - hs.indexOf(nextPos) : 1;
+    const position = nextPos ? hs.length - hs.indexOf(nextPos) + 1 : 1;
     const next = nextPos
       ? `${nextPos[2].qNum - this.maxScore} (${nextPos[1].qText})`
       : "You're in the lead!";
