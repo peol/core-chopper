@@ -12,18 +12,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "7.1.5",
+    "@babel/core": "7.1.6",
     "@babel/polyfill": "7.0.0",
     "aai-ant-plus": "0.1.9",
-    "enigma.js": "2.3.0",
+    "enigma.js": "2.3.2",
     "excalibur": "0.19.1",
     "lowdb": "1.0.0",
     "nfc-pcsc": "0.6.2",
-    "picasso-plugin-q": "0.16.0",
-    "picasso.js": "0.16.0",
+    "picasso-plugin-q": "0.16.1",
+    "picasso.js": "0.16.1",
     "prop-types": "15.6.2",
-    "react": "16.7.0-alpha.0",
-    "react-dom": "16.7.0-alpha.0",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
     "react-outside-click-handler": "1.2.2",
     "react-select": "2.1.1",
     "react-svg-inline": "2.1.1",
@@ -31,7 +31,7 @@
     "react-use-promise": "0.0.0-alpha.1",
     "shifty": "2.6.1",
     "shortid": "2.2.14",
-    "ws": "6.1.0"
+    "ws": "6.1.1"
   },
   "devDependencies": {
     "babel-eslint": "10.0.1",
