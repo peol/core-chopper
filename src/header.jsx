@@ -4,10 +4,12 @@ import logo from './resources/qlik-core.svg';
 
 import './header.css';
 
+const SIMULATION_SETTINGS = { power: 100, maxPower: 400, duration: 120000 };
+
 export default function ({ socket, player }) {
   const right = (
     <div className="right">
-      {player.userid ? <span onClick={() => socket.send({ type: 'game:simulate', data: { power: 100, maxPower: 400, duration: 12000 } })}>Simulate</span> : ''}
+      {player.userid ? <span onClick={() => socket.send({ type: 'game:simulate', data: SIMULATION_SETTINGS })}>Simulate</span> : ''}
       {player.userid ? <span onClick={() => window.location.reload()}>Sign out</span> : ''}
     </div>
   );
