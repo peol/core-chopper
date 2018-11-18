@@ -84,7 +84,7 @@ yet!
       .map((r, i) => {
         const classes = [r[0].qText === player.userid ? 'me' : ''];
         return (
-          <tr key={r[0].qText + r[2].qNum + distinct} className={classes}>
+          <tr key={r[0].qText + r[3].qNum + distinct} className={classes}>
             <td>{i + 1}</td>
             <td>{r[1].qText}</td>
             <td>{r[2].qText}</td>

@@ -2,11 +2,13 @@ import '@babel/polyfill';
 
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { useIdle } from 'react-use';
 
 import useSocket from './hooks/socket';
 import usePlayer from './hooks/player';
 import ErrorBoundary from './error-boundary';
 import Header from './header';
+import Overlay from './overlay';
 import Dashboard from './dashboard/layout';
 import Engine from './game/engine';
 
@@ -22,6 +24,7 @@ function Index() {
   const player = usePlayer(socket);
   const [previousPlayer, setPreviousPlayer] = useState({});
   const [isStarted, setIsStarted] = useState(false);
+  const isIdle = useIdle(30000);
 
   useEffect(() => {
     if (player.userid === previousPlayer.userid) {
@@ -42,6 +45,7 @@ function Index() {
     <div className="index">
       <Header player={player} socket={socket} />
       {view}
+      {!isStarted && isIdle ? <Overlay /> : null}
     </div>
   );
 }
