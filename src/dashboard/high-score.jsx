@@ -6,14 +6,11 @@ import useLayout from '../hooks/layout';
 import './high-score.css';
 
 const genericProps = {
-  qInfo: {
-    qType: 'highscore',
-  },
+  qInfo: { qType: 'highscore' },
   qHyperCubeDef: {
     qDimensions: [
       { qDef: { qFieldDefs: ['[userid]'] } },
       { qDef: { qFieldDefs: ['[name]'] } },
-      { qDef: { qFieldDefs: ['[bonus]'] } },
       {
         qDef: {
           qFieldDefs: ['[score]'],
@@ -21,39 +18,41 @@ const genericProps = {
           qSortCriterias: [{ qSortByNumeric: true }],
         },
         qNullSuppression: true,
-      }],
+      },
+      { qDef: { qFieldDefs: ['[bonus]'] } },
+    ],
     qInitialDataFetch: [{
       qWidth: 4,
       qHeight: 10,
     }],
     qSuppressMissing: true,
-    qInterColumnSortOrder: [3, 0],
+    qInterColumnSortOrder: [2, 0],
   },
 };
 
 const genericPropsDistinct = {
-  qInfo: {
-    qType: 'highscore-distinct',
-  },
+  qInfo: { qType: 'highscore-distinct' },
   qHyperCubeDef: {
     qDimensions: [
       { qDef: { qFieldDefs: ['[userid]'] } },
       { qDef: { qFieldDefs: ['[name]'] } },
-      { qDef: { qFieldDefs: ['[bonus]'] } },
     ],
-    qMeasures: [{
-      qDef: {
-        qDef: 'Max([score])',
-        qReverseSort: true,
+    qMeasures: [
+      {
+        qDef: {
+          qDef: 'Max([score])',
+          qReverseSort: true,
+        },
+        qSortBy: { qSortByNumeric: 1 },
       },
-      qSortBy: { qSortByNumeric: 1 },
-    }],
+      { qDef: { qDef: 'FirstSortedValue([bonus],-[score])' } },
+    ],
     qInitialDataFetch: [{
       qWidth: 4,
-      qHeight: 15,
+      qHeight: 20,
     }],
     qSuppressZero: true,
-    qInterColumnSortOrder: [3, 0],
+    qInterColumnSortOrder: [2, 0],
   },
 };
 
@@ -84,11 +83,11 @@ yet!
       .map((r, i) => {
         const classes = [r[0].qText === player.userid ? 'me' : ''];
         return (
-          <tr key={r[0].qText + r[3].qNum + distinct} className={classes}>
+          <tr key={r[0].qText + (r[3] || r[2]).qNum + distinct} className={classes}>
             <td>{i + 1}</td>
             <td>{r[1].qText}</td>
-            <td>{r[2].qText}</td>
             <td>{r[3].qText}</td>
+            <td>{r[2].qText}</td>
           </tr>
         );
       });
@@ -109,8 +108,10 @@ yet!
     );
   }
 
+  const classes = `card high-score distinct-${distinct}`;
+
   return (
-    <div className="card high-score">
+    <div className={classes}>
       <h2>{title}</h2>
       {view}
     </div>

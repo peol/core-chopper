@@ -20,7 +20,7 @@ const genericProps = {
   },
   qHyperCubeDef: {
     qDimensions: [
-      { qDef: { qFieldDefs: [`=ROUND([duration]/1000/${ROUND_TO_SECONDS}, 0.1)`] } },
+      { qDef: { qFieldDefs: [`=IF([duration] < 210000,ROUND([duration]/1000/${ROUND_TO_SECONDS}, 0.1))`] } },
       { qDef: { qFieldDefs: ['=[name]&\'::\'&[gameid]&\'::\'&[userid]'] } },
     ],
     qMeasures: [
@@ -79,7 +79,19 @@ const settings = {
     },
     color: {
       type: 'color',
-      data: { extract: { field: 'qDimensionInfo/1', value: v => v.qText.split('::')[2] } },
+      data: {
+        extract: {
+          field: 'qDimensionInfo/1',
+          value: v => v.qText.split('::')[2],
+        },
+        sort: (a, b) => {
+          const aPlayer = a.label.split('::')[0].toLowerCase();
+          const bPlayer = b.label.split('::')[0].toLowerCase();
+          if (aPlayer < bPlayer) return -1;
+          if (bPlayer < aPlayer) return 1;
+          return 0;
+        },
+      },
       range: ['#2a4858', '#ff3900', '#ff6600', '#f01d2d', '#ff0b00', '#e93a06', '#bb99aa', '#da0a2f', '#cf6181', '#7717a9', '#283d6a', '#24247d', '#de405d', '#f79f02', '#ff9300', '#c47e9a', '#cc0d7e', '#ffc000', '#441e92', '#be10be'],
     },
   },

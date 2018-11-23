@@ -4,7 +4,12 @@ import logo from './resources/qlik-core.svg';
 
 import './header.css';
 
-const SIMULATION_SETTINGS = { power: 100, maxPower: 400, duration: 120000 };
+const valueBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const SIMULATION_SETTINGS = {
+  power: valueBetween(80, 120),
+  maxPower: valueBetween(350, 450),
+  duration: valueBetween(90000, 120000),
+};
 
 export default function ({ socket, player }) {
   const right = (

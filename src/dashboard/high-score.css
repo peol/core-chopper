@@ -2,6 +2,10 @@
   grid-row-start: 1;
 }
 
+.high-score.distinct-true {
+  grid-row-end: 3;
+}
+
 .high-score table {
   border-collapse: collapse;
 }
@@ -12,6 +16,8 @@
   text-align: left;
   line-height: 0.6;
   padding: 3px 6px;
+  text-overflow: hidden;
+  white-space: pre;
 }
 
 .high-score .me {

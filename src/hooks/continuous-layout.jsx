@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import usePromise from 'react-use-promise';
 
-export default function useContinuousLayout(model, layout) {
+export default function useContinuousLayout(model, layout, max = 0) {
   const [contData, contDataError] = usePromise(
     useMemo(() => (model && layout
       ? model.getHyperCubeContinuousData(
         '/qHyperCubeDef',
         {
           qStart: 0,
-          qEnd: layout.qHyperCube.qDimensionInfo[0].qMax,
+          qEnd: max || layout.qHyperCube.qDimensionInfo[0].qMax,
           qNbrPoints: 32,
           qMaxNbrTicks: 300,
         },
