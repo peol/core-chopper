@@ -9,15 +9,10 @@ import usePlayer from './hooks/player';
 import ErrorBoundary from './error-boundary';
 import Header from './header';
 import Overlay from './overlay';
-import Dashboard from './dashboard/layout';
 import Engine from './game/engine';
+import OttawaDashboard from './ottawa-dashboard/layout';
 
-<<<<<<< HEAD
-import './index.css';
-=======
-const inOttawa = true;
-// import "./index.css";
->>>>>>> 32e9934... Going to switch to a fork
+import './ottawa.css';
 
 // expose React globally, we need this to avoid
 // it being removed by the experimental treeshaking
@@ -30,20 +25,22 @@ function Index() {
   const [previousPlayer, setPreviousPlayer] = useState({});
   const [isStarted, setIsStarted] = useState(false);
   const isIdle = useIdle(30000);
-
-  useEffect(() => {
-    if (player.userid === previousPlayer.userid) {
-      setIsStarted(true);
-    }
-    setPreviousPlayer(player);
-  }, [player]);
+  useEffect(
+    () => {
+      if (player.userid === previousPlayer.userid) {
+        setIsStarted(true);
+      }
+      setPreviousPlayer(player);
+    },
+    [player],
+  );
 
   let view;
 
   if (!isStarted) {
-    view = (<Dashboard player={player} socket={socket} />);
+    view = <OttawaDashboard player={player} socket={socket} />;
   } else {
-    view = (<Engine player={player} socket={socket} />);
+    view = <Engine player={player} socket={socket} />;
   }
 
   return (
@@ -56,7 +53,9 @@ function Index() {
 }
 
 ReactDOM.render(
-  <ErrorBoundary><Index /></ErrorBoundary>,
+  <ErrorBoundary>
+    <Index />
+  </ErrorBoundary>,
   document.getElementById('app'),
 );
 

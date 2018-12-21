@@ -6,6 +6,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html",
+    "start:ottawa": "parcel src/index-ottawa.html",
     "lint": "eslint --ext .js,.jsx src/",
     "lint:fix": "eslint --ext .js,.jsx --fix src/"
   },
