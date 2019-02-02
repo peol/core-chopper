@@ -29,7 +29,7 @@
     "react-svg-inline": "2.1.1",
     "react-toggle": "4.0.2",
     "react-use": "4.11.1",
-    "react-use-promise": "0.0.0-alpha.1",
+    "react-use-promise": "0.0.0-alpha.2",
     "shifty": "2.6.1",
     "shortid": "2.2.14",
     "ws": "6.1.3"
