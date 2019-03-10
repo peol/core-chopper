@@ -22,27 +22,27 @@
     "picasso-plugin-q": "0.20.0",
     "picasso.js": "0.20.0",
     "prop-types": "15.7.2",
-    "react": "16.8.3",
-    "react-dom": "16.8.3",
-    "react-outside-click-handler": "1.2.2",
+    "react": "16.8.4",
+    "react-dom": "16.8.4",
+    "react-outside-click-handler": "1.2.3",
     "react-select": "2.4.1",
     "react-svg-inline": "2.1.1",
     "react-toggle": "4.0.2",
     "react-use": "4.11.1",
     "react-use-promise": "0.1.2",
-    "shifty": "2.7.1",
+    "shifty": "2.7.3",
     "shortid": "2.2.14",
-    "ws": "6.1.4"
+    "ws": "6.2.0"
   },
   "devDependencies": {
     "babel-eslint": "10.0.1",
     "cross-env": "5.2.0",
-    "eslint": "5.15.0",
+    "eslint": "5.15.1",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-jsx-a11y": "6.2.1",
     "eslint-plugin-react": "7.12.4",
-    "parcel-bundler": "1.11.0"
+    "parcel-bundler": "1.12.0"
   },
   "babel": {
     "presets": [
