@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10-stretch-browsers-legacy
+      - image: circleci/node:11-stretch-browsers-legacy
     working_directory: ~/core-chopper
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install libpcsclite1 libpcsclite-dev libudev-dev
+            sudo apt-get install build-essential libudev-dev libpcsclite-dev
             npm install --quiet
       - run:
           name: Lint
