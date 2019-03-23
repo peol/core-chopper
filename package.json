@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "7.3.4",
-    "@babel/polyfill": "7.2.5",
+    "@babel/core": "7.4.0",
+    "@babel/polyfill": "7.4.0",
     "aai-ant-plus": "0.1.9",
     "enigma.js": "2.4.0",
     "excalibur": "0.21.0",
@@ -22,27 +22,27 @@
     "picasso-plugin-q": "0.21.0",
     "picasso.js": "0.21.0",
     "prop-types": "15.7.2",
-    "react": "16.8.4",
-    "react-dom": "16.8.4",
+    "react": "16.8.5",
+    "react-dom": "16.8.5",
     "react-outside-click-handler": "1.2.3",
     "react-select": "2.4.2",
     "react-svg-inline": "2.1.1",
     "react-toggle": "4.0.2",
-    "react-use": "5.7.1",
+    "react-use": "5.11.0",
     "react-use-promise": "0.2.0",
-    "shifty": "2.7.3",
+    "shifty": "2.8.0",
     "shortid": "2.2.14",
     "ws": "6.2.0"
   },
   "devDependencies": {
     "babel-eslint": "10.0.1",
     "cross-env": "5.2.0",
-    "eslint": "5.15.2",
+    "eslint": "5.15.3",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-jsx-a11y": "6.2.1",
     "eslint-plugin-react": "7.12.4",
-    "parcel-bundler": "1.12.2"
+    "parcel-bundler": "1.12.3"
   },
   "babel": {
     "presets": [
