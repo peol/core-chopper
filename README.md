@@ -15,6 +15,10 @@ In order to build the project you need additional pcsclite libraries.
 
 `apt-get install libpcsclite1 libpcsclite-dev`
 
+You will also need a running pcsc daemon:
+
+`apt-get install pcscd`
+
 ### Windows
 
 Additional components are needed on Windows:
