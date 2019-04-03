@@ -9,6 +9,12 @@ A Qlik Core gamification using bicycle sensors.
 * ANT+ USB stick to receive ANT+ events
 * ANT+ sensors attached to e.g. a bike
 
+### Debian/Ubuntu
+
+In order to install the package you need to have installed in the system the pcsclite libraries.
+
+`apt-get install libpcsclite1 libpcsclite-dev`
+
 ### Windows
 
 Additional components are needed on Windows:
