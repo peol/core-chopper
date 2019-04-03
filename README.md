@@ -11,7 +11,7 @@ A Qlik Core gamification using bicycle sensors.
 
 ### Debian/Ubuntu
 
-In order to install the package you need to install the pcsclite libraries.
+In order to build the project you need additional pcsclite libraries.
 
 `apt-get install libpcsclite1 libpcsclite-dev`
 
