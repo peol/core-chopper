@@ -1,7 +1,5 @@
 import React from 'react';
-
-import useModel from '../hooks/model';
-import useLayout from '../hooks/layout';
+import { useModel, useLayout } from 'hamus.js';
 
 import './stats.css';
 
@@ -15,8 +13,8 @@ const genericProps = {
   avgCadence: { qStringExpression: 'AVG(cadence)' },
 };
 
-export default function () {
-  const layout = useLayout(useModel(genericProps));
+export default function ({ app }) {
+  const [layout] = useLayout(useModel(app, genericProps)[0]);
 
   if (!layout) {
     return (<p>Loading...</p>);

@@ -2,8 +2,8 @@ const enigma = require('enigma.js');
 const schema = require('enigma.js/schemas/12.20.0.json');
 
 const url = `ws://localhost:9076/app/${+new Date()}`;
+// const dockerHost = 'docker.for.mac.localhost';
 const dockerHost = 'host.docker.internal';
-let currentDoc = null;
 const objectCache = {};
 
 const docMixin = {
@@ -82,8 +82,5 @@ async function getNewDoc() {
 }
 
 export default function getDoc() {
-  if (!currentDoc) {
-    currentDoc = getNewDoc();
-  }
-  return currentDoc;
+  return getNewDoc();
 }

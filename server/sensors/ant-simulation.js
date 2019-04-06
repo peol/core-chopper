@@ -1,4 +1,4 @@
-const { tween } = require('shifty');
+const { shifty: { tween } } = require('shifty');
 
 module.exports = ({
   power = 0, maxPower = 400, duration = 120000, easing = 'easeInOutQuint', onTick,

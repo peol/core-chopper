@@ -1,11 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import picassoQ from 'picasso-plugin-q';
 import picasso from 'picasso.js';
+import { useModel, useLayout, usePicasso } from 'hamus.js';
 
-import useModel from '../hooks/model';
-import useLayout from '../hooks/layout';
 import useContinuousLayout from '../hooks/continuous-layout';
-import usePicasso from '../hooks/picasso';
 
 import './power-chart.css';
 
@@ -207,13 +205,13 @@ const settings = {
   }],
 };
 
-export default function ({ player }) {
-  const model = useModel(genericProps);
-  const layout = useLayout(model);
+export default function ({ app, player }) {
+  const [model] = useModel(app, genericProps);
+  const [layout] = useLayout(model);
   const continuousLayout = useContinuousLayout(model, layout);
   const elementRef = useRef(null);
-  const pic = usePicasso(elementRef.current, settings, continuousLayout);
-  const resetChart = () => {
+  const pic = usePicasso(elementRef, settings, continuousLayout);
+  const resetChart = useCallback(() => {
     const brush = pic.brush('highlight');
     brush.clear();
     if (player.userid) {
@@ -221,7 +219,7 @@ export default function ({ player }) {
     } else {
       brush.end();
     }
-  };
+  }, [pic, player]);
 
   useEffect(() => {
     if (!pic) return;
@@ -249,7 +247,7 @@ export default function ({ player }) {
         }],
       }),
     });
-  }, [pic]);
+  }, [pic, resetChart]);
 
   return (
     <div className="card full-width">

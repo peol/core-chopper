@@ -1,7 +1,5 @@
 import React from 'react';
-
-import useModel from '../hooks/model';
-import useLayout from '../hooks/layout';
+import { useModel, useLayout } from 'hamus.js';
 
 import './high-score.css';
 
@@ -56,8 +54,8 @@ const genericPropsDistinct = {
   },
 };
 
-export default function ({ player, distinct }) {
-  const layout = useLayout(useModel(distinct ? genericPropsDistinct : genericProps));
+export default function ({ app, player, distinct }) {
+  const [layout] = useLayout(useModel(app, distinct ? genericPropsDistinct : genericProps)[0]);
 
   if (!layout) {
     return (<div className="card"><p>Loading...</p></div>);

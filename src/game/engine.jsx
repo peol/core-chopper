@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import * as ex from 'excalibur';
+import { useModel, useLayout } from 'hamus.js';
 
-import useModel from '../hooks/model';
-import useLayout from '../hooks/layout';
 import Chopper from './chopper';
 import Cloud from './cloud';
 import FlyingObject from './flying-object';
@@ -40,8 +39,8 @@ const genericProps = {
   },
 };
 
-export default function ({ player, socket }) {
-  const layout = useLayout(useModel(genericProps));
+export default function ({ app, player, socket }) {
+  const [layout] = useLayout(useModel(app, genericProps)[0]);
   const gameid = useRef(null);
   const chopperRef = useRef(null);
   const [canvasId] = useState(`canvas${Date.now()}`);
@@ -50,7 +49,7 @@ export default function ({ player, socket }) {
     const changed = (data) => { gameid.current = data.gameid; };
     socket.on('game:created', changed);
     return () => socket.off('game:created', changed);
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     const ticked = ({ power }) => {
@@ -60,7 +59,7 @@ export default function ({ player, socket }) {
     };
     socket.on('game:tick', ticked);
     return () => socket.off('game:tick', ticked);
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (!layout) return;
@@ -123,7 +122,7 @@ export default function ({ player, socket }) {
       });
       engine.currentScene.camera.strategy.lockToActor(chopper);
     });
-  }, [layout]);
+  }, [layout, canvasId, player, socket]);
 
   return <div className="engine"><canvas id={canvasId} /></div>;
 }

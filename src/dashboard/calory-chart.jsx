@@ -1,10 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import picassoQ from 'picasso-plugin-q';
 import picasso from 'picasso.js';
-
-import useModel from '../hooks/model';
-import useLayout from '../hooks/layout';
-import usePicasso from '../hooks/picasso';
+import { useModel, useLayout, usePicasso } from 'hamus.js';
 
 import './calory-chart.css';
 
@@ -166,10 +163,10 @@ const settings = {
   }],
 };
 
-export default function ({ player }) {
-  const layout = useLayout(useModel(genericProps));
+export default function ({ app, player }) {
+  const [layout] = useLayout(useModel(app, genericProps)[0]);
   const elementRef = useRef(null);
-  const pic = usePicasso(elementRef.current, settings, layout);
+  const pic = usePicasso(elementRef, settings, layout);
 
   useEffect(() => {
     if (!pic) return;

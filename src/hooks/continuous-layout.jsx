@@ -1,21 +1,18 @@
-import { useMemo } from 'react';
-import usePromise from 'react-use-promise';
+import { useAsync } from 'react-use';
 
 export default function useContinuousLayout(model, layout, max = 0) {
-  const [contData, contDataError] = usePromise(
-    useMemo(() => (model && layout
-      ? model.getHyperCubeContinuousData(
-        '/qHyperCubeDef',
-        {
-          qStart: 0,
-          qEnd: max || layout.qHyperCube.qDimensionInfo[0].qMax,
-          qNbrPoints: 32,
-          qMaxNbrTicks: 300,
-        },
-      )
-      : null),
-    [model, layout]),
-  );
+  const { value: contData, error: contDataError } = useAsync(async () => {
+    if (!model || !layout) return null;
+    return model.getHyperCubeContinuousData(
+      '/qHyperCubeDef',
+      {
+        qStart: 0,
+        qEnd: max || layout.qHyperCube.qDimensionInfo[0].qMax,
+        qNbrPoints: 32,
+        qMaxNbrTicks: 300,
+      },
+    );
+  }, [model, layout, max]);
   if (!model || !layout) return null;
   if (contDataError) {
     console.warn('Continuous layout failed to fetch:', contDataError);

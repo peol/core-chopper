@@ -13,7 +13,7 @@ export default function usePlayer(socket) {
       socket.off('player:saved', update);
       socket.off('player:scanned', update);
     };
-  }, []);
+  }, [socket]);
 
   return player;
 }

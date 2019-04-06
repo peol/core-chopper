@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import Toggle from 'react-toggle';
 
 import usePlayerList from '../hooks/player-list';
-import useFormValue from '../hooks/form-value';
 
 import 'react-toggle/style.css';
 import './player.css';
 
 function Form({ player, list, socket }) {
   const [formPlayer, setFormPlayer] = useState(player);
-  const [name, setName] = useFormValue(formPlayer.name);
-  const [email, setEmail] = useFormValue(formPlayer.email);
-  const [contact, setContact] = useFormValue(formPlayer.contact);
   const confirm = () => {
+    const { name, email, contact } = formPlayer;
     const newPlayer = Object.assign({}, formPlayer, {
       name: name.trim(),
       email: email.trim(),
@@ -29,12 +26,6 @@ function Form({ player, list, socket }) {
     return { label, value: p.userid };
   });
 
-  useEffect(() => {
-    setName(formPlayer.name);
-    setEmail(formPlayer.email);
-    setContact(formPlayer.contact);
-  }, [formPlayer]);
-
   return (
     <ul className="details">
       <li>
@@ -49,19 +40,19 @@ function Form({ player, list, socket }) {
       <li>
         <label htmlFor="name">
           Name:
-          <input id="name" value={name} onChange={setName} />
+          <input id="name" value={formPlayer.name} onChange={e => setFormPlayer({ ...formPlayer, name: e.target.value })} />
         </label>
       </li>
       <li>
         <label htmlFor="email">
           Email:
-          <input id="email" value={email} onChange={setEmail} />
+          <input id="email" value={formPlayer.email} onChange={e => setFormPlayer({ ...formPlayer, email: e.target.value })} />
         </label>
       </li>
       <li>
         <label htmlFor="contact">
           Contact after event:
-          <Toggle id="contact" checked={contact} onChange={setContact} />
+          <Toggle id="contact" checked={formPlayer.contact} onChange={e => setFormPlayer({ ...formPlayer, contact: e.target.checked })} />
         </label>
       </li>
       <li><span className="button" onClick={confirm}>Confirm</span></li>
@@ -81,8 +72,8 @@ Welcome,
   );
 }
 
-export default function Player({ player, socket }) {
-  const playerList = usePlayerList(socket);
+export default function Player({ socket, player }) {
+  const playerList = usePlayerList(socket, player);
   const [showForm, setShowForm] = useState(false);
   let view;
 
