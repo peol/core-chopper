@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "7.5.4",
+    "@babel/core": "7.5.5",
     "@babel/polyfill": "7.4.4",
     "aai-ant-plus": "0.1.9",
     "enigma.js": "2.4.0",
@@ -25,21 +25,21 @@
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-outside-click-handler": "1.2.3",
+    "react-outside-click-handler": "1.2.4",
     "react-select": "2.4.4",
     "react-svg-inline": "2.1.1",
     "react-toggle": "4.0.2",
     "react-use": "5.16.1",
     "shifty": "2.8.0",
     "shortid": "2.2.14",
-    "ws": "7.1.0"
+    "ws": "7.1.1"
   },
   "devDependencies": {
     "babel-eslint": "10.0.2",
     "cross-env": "5.2.0",
     "eslint": "6.0.1",
     "eslint-config-airbnb": "17.1.1",
-    "eslint-plugin-import": "2.18.0",
+    "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.14.2",
     "eslint-plugin-react-hooks": "1.6.1",
