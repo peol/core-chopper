@@ -29,7 +29,7 @@
     "react-select": "2.4.4",
     "react-svg-inline": "2.1.1",
     "react-toggle": "4.0.2",
-    "react-use": "10.1.2",
+    "react-use": "10.3.0",
     "shifty": "2.8.0",
     "shortid": "2.2.14",
     "ws": "7.1.1"
@@ -41,7 +41,7 @@
     "eslint-config-airbnb": "17.1.1",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.14.2",
+    "eslint-plugin-react": "7.14.3",
     "eslint-plugin-react-hooks": "1.6.1",
     "parcel-bundler": "1.12.3"
   },
