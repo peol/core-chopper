@@ -29,7 +29,7 @@
     "react-select": "2.4.4",
     "react-svg-inline": "2.1.1",
     "react-toggle": "4.0.2",
-    "react-use": "10.6.2",
+    "react-use": "10.8.0",
     "shifty": "2.8.0",
     "shortid": "2.2.14",
     "ws": "7.1.2"
@@ -37,7 +37,7 @@
   "devDependencies": {
     "babel-eslint": "10.0.2",
     "cross-env": "5.2.0",
-    "eslint": "6.2.0",
+    "eslint": "6.2.2",
     "eslint-config-airbnb": "17.1.1",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
